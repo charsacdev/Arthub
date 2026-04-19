@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Overview — ArtsHub Dashboard</title>
+  <link rel="stylesheet" href="css/dashboard.css"/>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <a class="nav-logo" href="../index.html">
+    <div class="nav-logo-icon">◈</div>
+    <span class="nav-logo-text">ArtsHub</span>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="../index.html">Explore</a></li>
+    <li><a href="../index.html#trending">Trending</a></li>
+    <li><a href="../index.html#artists">Artists</a></li>
+    <li><a href="index.html" class="active">Dashboard</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="wallet-chip">
+      <div class="wallet-dot"></div>
+      <span id="nav-wallet">0x…</span>
+    </div>
+    <button class="btn btn-primary btn-sm" onclick="openModal('mintModal')">+ Mint</button>
+    <button class="btn btn-ghost btn-sm" onclick="signOut()" style="border-color:rgba(255,255,255,.1);">Sign Out</button>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="db-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="db-sidebar">
+    <div class="sb-profile">
+      <div class="sb-avatar">
+        <img id="sb-avatar-img" src="" alt="Avatar"/>
+        <div class="sb-online"></div>
+      </div>
+      <div>
+        <div class="sb-name" id="sb-name">—</div>
+        <div class="sb-role">Creator</div>
+      </div>
+    </div>
+
+    <nav class="sb-nav">
+      <div class="sb-group-label">Main</div>
+      <a class="sb-link" data-page="index.html" href="index.html">
+        <span class="sb-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+        </span>
+        Overview
+        <span class="sb-badge">New</span>
+      </a>
+      <a class="sb-link" data-page="items.html" href="items.html">
+        <span class="sb-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 20"/></svg>
+        </span>
+        My Items
+        <span class="sb-count" id="sb-item-count">0</span>
+      </a>
+      <a class="sb-link" data-page="earnings.html" href="earnings.html">
+        <span class="sb-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+        </span>
+        Earnings
+      </a>
+      <a class="sb-link" data-page="mint.html" href="mint.html">
+        <span class="sb-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+        </span>
+        Mint NFT
+      </a>
+
+      <div class="sb-group-label" style="margin-top:4px;">Account</div>
+      <a class="sb-link" data-page="profile.html" href="profile.html">
+        <span class="sb-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </span>
+        Edit Profile
+      </a>
+      <a class="sb-link" href="../index.html">
+        <span class="sb-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </span>
+        Marketplace
+      </a>
+      <a class="sb-link" href="../admin/index.html">
+        <span class="sb-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </span>
+        Admin Panel
+      </a>
+    </nav>
+
+    <div class="sb-footer">
+      <div class="sb-storage-head"><span>Storage Used</span><span>68%</span></div>
+      <div class="sb-storage-track"><div class="sb-storage-fill" style="width:68%"></div></div>
+      <div class="sb-storage-note">3.4 GB of 5 GB</div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="db-main">
+    <div class="breadcrumb">
+      <a href="../index.html">Home</a><span>/</span><span>Dashboard</span><span>/</span><span>Overview</span>
+    </div>
+
+    <div class="page-head">
+      <div>
+        <div class="page-title">Welcome back, <span class="hi" id="ov-name">—</span></div>
+        <div class="page-sub">Here's your performance snapshot for today</div>
+      </div>
+      <button class="btn btn-primary" onclick="openModal('mintModal')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+        Mint New NFT
+      </button>
+    </div>
+
+    <!-- STAT CARDS -->
+    <div class="stats-row">
+      <div class="stat-card purple">
+        <div class="sc-top">
+          <div class="sc-icon purple"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
+          <span class="sc-change up">↑ 12.4%</span>
+        </div>
+        <div class="sc-value" id="ov-earnings">Ξ 0</div>
+        <div class="sc-label">Total Earnings</div>
+        <div class="sc-bars"><span style="--h:40%"></span><span style="--h:55%"></span><span style="--h:45%"></span><span style="--h:75%"></span><span style="--h:60%"></span><span style="--h:85%"></span><span style="--h:90%"></span></div>
+      </div>
+
+      <div class="stat-card cyan">
+        <div class="sc-top">
+          <div class="sc-icon cyan"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16"/></svg></div>
+          <span class="sc-change up">↑ +2 this week</span>
+        </div>
+        <div class="sc-value" id="ov-items">0</div>
+        <div class="sc-label">Total Items</div>
+        <div class="sc-bars"><span style="--h:30%"></span><span style="--h:50%"></span><span style="--h:42%"></span><span style="--h:65%"></span><span style="--h:55%"></span><span style="--h:70%"></span><span style="--h:80%"></span></div>
+      </div>
+
+      <div class="stat-card green">
+        <div class="sc-top">
+          <div class="sc-icon green"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <span class="sc-change up">↑ Active</span>
+        </div>
+        <div class="sc-value" id="ov-sold">0</div>
+        <div class="sc-label">Items Sold</div>
+        <div class="sc-bars"><span style="--h:20%"></span><span style="--h:35%"></span><span style="--h:50%"></span><span style="--h:45%"></span><span style="--h:65%"></span><span style="--h:70%"></span><span style="--h:80%"></span></div>
+      </div>
+
+      <div class="stat-card pink">
+        <div class="sc-top">
+          <div class="sc-icon pink"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div>
+          <span class="sc-change up">↑ +24 this week</span>
+        </div>
+        <div class="sc-value" id="ov-likes">0</div>
+        <div class="sc-label">Total Likes</div>
+        <div class="sc-bars"><span style="--h:50%"></span><span style="--h:60%"></span><span style="--h:55%"></span><span style="--h:80%"></span><span style="--h:70%"></span><span style="--h:88%"></span><span style="--h:82%"></span></div>
+      </div>
+    </div>
+
+    <!-- TWO COLUMN -->
+    <div class="two-col">
+      <div class="panel">
+        <div class="panel-head">
+          <div class="panel-title"><span class="dot"></span>Recent Items</div>
+          <a href="items.html" class="text-btn">View all →</a>
+        </div>
+        <div class="panel-body" id="ov-recent"></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <div class="panel-title"><span class="dot cyan"></span>Quick Actions</div>
+        </div>
+        <div class="panel-body">
+          <div class="action-list">
+            <button class="action-row" onclick="openModal('mintModal')">
+              <div class="action-icon" style="background:rgba(108,63,255,.12);color:var(--accent);">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+              </div>
+              <div class="action-text"><div class="action-name">Mint New NFT</div><div class="action-sub">Upload &amp; publish instantly</div></div>
+              <svg class="action-arr" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+
+            <a class="action-row" href="items.html">
+              <div class="action-icon" style="background:rgba(0,212,255,.1);color:var(--accent-2);">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16"/></svg>
+              </div>
+              <div class="action-text"><div class="action-name">Manage Items</div><div class="action-sub">Edit prices, remove listings</div></div>
+              <svg class="action-arr" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </a>
+
+            <a class="action-row" href="earnings.html">
+              <div class="action-icon" style="background:rgba(0,229,160,.1);color:var(--success);">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+              </div>
+              <div class="action-text"><div class="action-name">Earnings Report</div><div class="action-sub">Full revenue breakdown</div></div>
+              <svg class="action-arr" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </a>
+
+            <a class="action-row" href="profile.html">
+              <div class="action-icon" style="background:rgba(255,45,120,.1);color:var(--accent-3);">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              </div>
+              <div class="action-text"><div class="action-name">Edit Profile</div><div class="action-sub">Update bio &amp; socials</div></div>
+              <svg class="action-arr" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- QUICK MINT MODAL -->
+<div class="modal-overlay" id="mintModal">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title">◈ Quick Mint</div>
+      <button class="modal-close" onclick="closeModal('mintModal')">✕</button>
+    </div>
+    <div class="fg">
+      <label class="fl">Name <span class="req">*</span></label>
+      <input class="fi" id="mm-name" type="text" placeholder="e.g. Cosmic Drift #5"/>
+    </div>
+    <div class="fg">
+      <label class="fl">Category</label>
+      <select class="fi" id="mm-cat">
+        <option>Art</option><option>3D</option><option>Animation</option>
+        <option>Photography</option><option>Music</option><option>Pixel Art</option><option>Glitch</option>
+      </select>
+    </div>
+    <div class="fg">
+      <label class="fl">Price (ETH) <span class="req">*</span></label>
+      <input class="fi" id="mm-price" type="number" step="0.01" placeholder="1.0"/>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('mintModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="mintFromModal()">◈ Mint NFT</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast-wrap"></div>
+<script src="../js/data.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Admin Login — ArtsHub</title>
+  <link rel="stylesheet" href="css/admin.css"/>
+  <style>
+    /* ── Admin Login Page ── */
+    body { display: flex; align-items: center; justify-content: center; min-height: 100vh; overflow: hidden; }
+
+    /* Ambient background glows */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse 700px 500px at 20% 10%, rgba(245,158,11,.07) 0%, transparent 70%),
+        radial-gradient(ellipse 600px 400px at 80% 90%, rgba(0,212,255,.05) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    /* Grid texture */
+    body::after {
+      content: '';
+      position: fixed; inset: 0; z-index: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
+      background-size: 44px 44px;
+      pointer-events: none;
+    }
+
+    .login-wrap {
+      position: relative; z-index: 1;
+      width: 100%; max-width: 420px;
+      padding: 16px;
+    }
+
+    /* Logo */
+    .login-logo {
+      display: flex; align-items: center; justify-content: center; gap: 11px;
+      margin-bottom: 36px;
+    }
+    .login-logo-icon {
+      width: 44px; height: 44px;
+      background: linear-gradient(135deg, #f59e0b, #f97316);
+      border-radius: 13px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; font-weight: 900; color: #000;
+      box-shadow: 0 0 28px rgba(245,158,11,.35);
+    }
+    .login-logo-text {
+      font-size: 1.5rem; font-weight: 800;
+      color: var(--text); letter-spacing: -.5px;
+    }
+    .login-logo-badge {
+      background: rgba(245,158,11,.15);
+      border: 1px solid rgba(245,158,11,.3);
+      color: var(--accent);
+      font-size: .6rem; font-weight: 700;
+      padding: 3px 9px; border-radius: 99px;
+      text-transform: uppercase; letter-spacing: .8px;
+      align-self: flex-start; margin-top: 4px;
+    }
+
+    /* Card */
+    .login-card {
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 36px 32px;
+      box-shadow: 0 24px 80px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.03) inset;
+    }
+
+    .login-title {
+      font-size: 1.25rem; font-weight: 700;
+      color: var(--text); margin-bottom: 5px;
+    }
+    .login-sub {
+      font-size: .8rem; color: var(--text-3);
+      margin-bottom: 28px;
+    }
+
+    /* Form */
+    .fg { display: flex; flex-direction: column; gap: 6px; margin-bottom: 18px; }
+    .fl { font-size: .76rem; font-weight: 600; color: var(--text-2); }
+    .fi-wrap { position: relative; }
+    .fi-icon {
+      position: absolute; left: 13px; top: 50%; transform: translateY(-50%);
+      color: var(--text-3); pointer-events: none;
+    }
+    .fi {
+      width: 100%;
+      background: rgba(255,255,255,.04);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 10px;
+      padding: 11px 42px 11px 40px;
+      font-size: .85rem; font-family: inherit;
+      transition: border-color .2s, box-shadow .2s;
+      outline: none;
+    }
+    .fi:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(245,158,11,.1);
+    }
+    .fi.error { border-color: var(--danger); }
+    .fi-msg { font-size: .72rem; margin-top: 4px; min-height: 16px; }
+    .fi-msg.error-msg { color: var(--danger); }
+
+    /* Password toggle */
+    .pw-toggle {
+      position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+      background: none; border: none; cursor: pointer; padding: 4px;
+      color: var(--text-3); line-height: 0;
+      transition: color .2s;
+    }
+    .pw-toggle:hover { color: var(--text-2); }
+
+    /* Error alert */
+    .login-error {
+      display: none;
+      background: rgba(255,69,96,.08);
+      border: 1px solid rgba(255,69,96,.2);
+      border-radius: 10px;
+      padding: 11px 14px;
+      font-size: .78rem; color: var(--danger);
+      margin-bottom: 18px;
+      gap: 8px; align-items: flex-start;
+    }
+    .login-error.show { display: flex; }
+
+    /* Submit */
+    .btn-login {
+      width: 100%;
+      background: linear-gradient(135deg, #f59e0b, #f97316);
+      color: #000; font-weight: 700;
+      padding: 12px 20px; border-radius: 11px;
+      border: none; cursor: pointer; font-size: .88rem;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      transition: all .2s;
+      font-family: inherit;
+    }
+    .btn-login:hover { box-shadow: 0 0 28px rgba(245,158,11,.4); filter: brightness(1.06); }
+    .btn-login:disabled { opacity: .55; cursor: not-allowed; filter: none; box-shadow: none; }
+
+    /* Spinner */
+    .spin {
+      width: 16px; height: 16px;
+      border: 2px solid rgba(0,0,0,.25);
+      border-top-color: #000;
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Demo hint */
+    .demo-hint {
+      margin-top: 22px;
+      background: rgba(245,158,11,.04);
+      border: 1px solid rgba(245,158,11,.12);
+      border-radius: 11px;
+      padding: 14px 16px;
+    }
+    .demo-hint-label {
+      font-size: .68rem; text-transform: uppercase; letter-spacing: .7px;
+      color: var(--accent); font-weight: 700; margin-bottom: 10px;
+    }
+    .demo-row {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 6px;
+    }
+    .demo-row:last-child { margin-bottom: 0; }
+    .demo-key { font-size: .73rem; color: var(--text-3); }
+    .demo-val { font-size: .73rem; color: var(--text-2); font-family: monospace; }
+    .btn-demo {
+      margin-top: 12px; width: 100%;
+      background: rgba(245,158,11,.08);
+      border: 1px solid rgba(245,158,11,.18);
+      color: var(--accent);
+      padding: 8px 14px; border-radius: 8px;
+      font-size: .75rem; font-weight: 600;
+      cursor: pointer; font-family: inherit;
+      transition: all .2s;
+    }
+    .btn-demo:hover { background: rgba(245,158,11,.14); }
+
+    /* Back link */
+    .back-link {
+      display: flex; align-items: center; justify-content: center; gap: 5px;
+      margin-top: 20px;
+      font-size: .75rem; color: var(--text-3);
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .back-link:hover { color: var(--text-2); }
+  </style>
+</head>
+<body>
+
+<div class="login-wrap">
+  <!-- Logo -->
+  <div class="login-logo">
+    <div class="login-logo-icon">◈</div>
+    <span class="login-logo-text">ArtsHub</span>
+    <span class="login-logo-badge">Admin</span>
+  </div>
+
+  <!-- Card -->
+  <div class="login-card">
+    <div class="login-title">Administrator Access</div>
+    <div class="login-sub">Sign in with your admin credentials to continue</div>
+
+    <!-- Error alert -->
+    <div class="login-error" id="login-error">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;margin-top:1px"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <span id="login-error-msg">Invalid credentials. Please try again.</span>
+    </div>
+
+    <form id="login-form" novalidate>
+      <!-- Email -->
+      <div class="fg">
+        <label class="fl" for="email">Email Address</label>
+        <div class="fi-wrap">
+          <span class="fi-icon">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </span>
+          <input class="fi" id="email" type="email" placeholder="admin@artshub.io" autocomplete="email"/>
+        </div>
+        <div class="fi-msg" id="email-msg"></div>
+      </div>
+
+      <!-- Password -->
+      <div class="fg">
+        <label class="fl" for="password">Password</label>
+        <div class="fi-wrap">
+          <span class="fi-icon">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+          </span>
+          <input class="fi" id="password" type="password" placeholder="••••••••" autocomplete="current-password"/>
+          <button type="button" class="pw-toggle" id="pw-toggle" onclick="togglePw()" aria-label="Toggle password">
+            <svg id="pw-eye" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+        <div class="fi-msg" id="pw-msg"></div>
+      </div>
+
+      <button type="submit" class="btn-login" id="login-btn">
+        <span id="btn-text">Sign In to Admin Panel</span>
+        <div class="spin" id="btn-spin" style="display:none;"></div>
+      </button>
+    </form>
+
+    <!-- Demo credentials -->
+    <div class="demo-hint">
+      <div class="demo-hint-label">Demo Credentials</div>
+      <div class="demo-row">
+        <span class="demo-key">Email</span>
+        <span class="demo-val">admin@artshub.io</span>
+      </div>
+      <div class="demo-row">
+        <span class="demo-key">Password</span>
+        <span class="demo-val">admin123</span>
+      </div>
+      <button class="btn-demo" onclick="fillDemo()">Fill Demo Credentials</button>
+    </div>
+  </div>
+
+  <a href="../index.html" class="back-link">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+    Back to Marketplace
+  </a>
+</div>
+
+<script>
+  const ADMIN_EMAIL    = 'admin@artshub.io';
+  const ADMIN_PASSWORD = 'admin123';
+  const SESSION_KEY    = 'artsHub_session';
+
+  /* Redirect if already logged in as admin */
+  (function () {
+    try {
+      const s = JSON.parse(localStorage.getItem(SESSION_KEY) || 'null');
+      if (s && s.role === 'admin') window.location.replace('index.html');
+    } catch (_) {}
+  })();
+
+  /* Toggle password visibility */
+  function togglePw() {
+    const inp = document.getElementById('password');
+    const eye = document.getElementById('pw-eye');
+    const show = inp.type === 'password';
+    inp.type = show ? 'text' : 'password';
+    eye.innerHTML = show
+      ? '<path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>'
+      : '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
+  }
+
+  /* Fill demo credentials */
+  function fillDemo() {
+    document.getElementById('email').value    = ADMIN_EMAIL;
+    document.getElementById('password').value = ADMIN_PASSWORD;
+    clearError();
+  }
+
+  /* UI helpers */
+  function setLoading(on) {
+    const btn  = document.getElementById('login-btn');
+    const txt  = document.getElementById('btn-text');
+    const spin = document.getElementById('btn-spin');
+    btn.disabled  = on;
+    txt.style.display  = on ? 'none' : '';
+    spin.style.display = on ? 'block' : 'none';
+  }
+
+  function showError(msg) {
+    const el = document.getElementById('login-error');
+    document.getElementById('login-error-msg').textContent = msg;
+    el.classList.add('show');
+  }
+
+  function clearError() {
+    document.getElementById('login-error').classList.remove('show');
+    document.getElementById('email-msg').textContent  = '';
+    document.getElementById('pw-msg').textContent     = '';
+    document.getElementById('email').classList.remove('error');
+    document.getElementById('password').classList.remove('error');
+  }
+
+  function fieldError(id, msgId, msg) {
+    document.getElementById(id).classList.add('error');
+    const m = document.getElementById(msgId);
+    m.textContent = msg;
+    m.className   = 'fi-msg error-msg';
+  }
+
+  /* Simulate network delay */
+  function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+  /* Login handler */
+  document.getElementById('login-form').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    clearError();
+
+    const email = document.getElementById('email').value.trim();
+    const pass  = document.getElementById('password').value;
+
+    /* Basic validation */
+    let valid = true;
+    if (!email) {
+      fieldError('email', 'email-msg', 'Email is required');
+      valid = false;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      fieldError('email', 'email-msg', 'Enter a valid email address');
+      valid = false;
+    }
+    if (!pass) {
+      fieldError('password', 'pw-msg', 'Password is required');
+      valid = false;
+    }
+    if (!valid) return;
+
+    setLoading(true);
+    await delay(900);
+
+    if (email.toLowerCase() === ADMIN_EMAIL && pass === ADMIN_PASSWORD) {
+      /* Success — set session and redirect */
+      const session = {
+        id:       'admin-001',
+        name:     'Admin',
+        email:    ADMIN_EMAIL,
+        role:     'admin',
+        loggedIn: true,
+        ts:       Date.now()
+      };
+      localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+
+      /* Check for ?next= redirect */
+      const params = new URLSearchParams(window.location.search);
+      const next   = params.get('next');
+      window.location.href = next && next.startsWith('admin/') ? '../' + next : 'index.html';
+    } else {
+      setLoading(false);
+      /* Shake the card */
+      const card = document.querySelector('.login-card');
+      card.style.animation = 'none';
+      card.offsetHeight; /* reflow */
+      card.style.animation = 'shake .4s ease';
+      showError('Invalid email or password. Please check your credentials.');
+    }
+  });
+</script>
+
+<style>
+  @keyframes shake {
+    0%,100% { transform: translateX(0); }
+    20%,60% { transform: translateX(-6px); }
+    40%,80% { transform: translateX(6px); }
+  }
+</style>
+
+</body>
+</html>

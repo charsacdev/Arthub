@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Admin Overview — ArtsHub</title>
+  <link rel="stylesheet" href="css/admin.css"/>
+</head>
+<body>
+
+<nav class="navbar">
+  <a class="nav-logo" href="../index.html">
+    <div class="nav-logo-icon">◈</div>
+    <span class="nav-logo-text">ArtsHub</span>
+    <span class="nav-logo-badge">Admin</span>
+  </a>
+  <div class="nav-right">
+    <div class="admin-chip"><div class="admin-dot"></div>Admin Panel</div>
+    <button class="btn btn-ghost btn-sm" onclick="signOut()" style="border-color:rgba(255,255,255,.1);">Sign Out</button><button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="admin-layout">
+  <aside class="admin-sidebar">
+    <div class="sb-head">
+      <div class="sb-head-label">Control Center</div>
+      <div class="sb-head-sub">ArtsHub Administrator</div>
+    </div>
+    <nav class="sb-nav">
+      <div class="sb-group">Main</div>
+      <a class="sb-link" data-page="index.html" href="index.html">
+        <span class="sb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg></span>
+        Overview <span class="sb-badge">Live</span>
+      </a>
+      <a class="sb-link" data-page="users.html" href="users.html">
+        <span class="sb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></span>
+        Creators <span class="sb-count" id="sb-creator-count">0</span>
+      </a>
+      <a class="sb-link" data-page="nfts.html" href="nfts.html">
+        <span class="sb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 20"/></svg></span>
+        NFTs <span class="sb-count" id="sb-nft-count">0</span>
+      </a>
+      <div class="sb-group" style="margin-top:4px;">System</div>
+      <a class="sb-link" data-page="settings.html" href="settings.html">
+        <span class="sb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2"/></svg></span>
+        Settings
+      </a>
+      <a class="sb-link" href="../index.html">
+        <span class="sb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>
+        View Marketplace
+      </a>
+      <a class="sb-link" href="../dashboard/index.html">
+        <span class="sb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg></span>
+        Creator Dashboard
+      </a>
+    </nav>
+    <div class="sb-footer">
+      <div class="sb-admin-info">
+        <div class="sb-admin-av">A</div>
+        <div>
+          <div class="sb-admin-name">Admin</div>
+          <div class="sb-admin-role">Super Administrator</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="admin-main">
+    <div class="breadcrumb">
+      <a href="../index.html">Home</a><span>/</span><span>Admin</span><span>/</span><span>Overview</span>
+    </div>
+
+    <div class="page-head">
+      <div>
+        <div class="page-title">Platform Overview</div>
+        <div class="page-sub">Real-time snapshot of ArtsHub activity</div>
+      </div>
+      <div class="page-actions">
+        <a href="nfts.html" class="btn btn-ghost btn-sm">Manage NFTs</a>
+        <a href="users.html" class="btn btn-primary btn-sm">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Add Creator
+        </a>
+      </div>
+    </div>
+
+    <!-- KPI Cards -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-top">
+          <div class="kpi-icon amber">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+          </div>
+          <span class="kpi-change up">↑ +2 this week</span>
+        </div>
+        <div class="kpi-val" id="kpi-creators">0</div>
+        <div class="kpi-lbl">Total Creators</div>
+        <div class="kpi-glow amber"></div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-top">
+          <div class="kpi-icon cyan">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16"/></svg>
+          </div>
+          <span class="kpi-change up">↑ +5 today</span>
+        </div>
+        <div class="kpi-val" id="kpi-nfts">0</div>
+        <div class="kpi-lbl">Total NFTs</div>
+        <div class="kpi-glow cyan"></div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-top">
+          <div class="kpi-icon green">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+          </div>
+          <span class="kpi-change up">↑ 12.4%</span>
+        </div>
+        <div class="kpi-val" id="kpi-volume">Ξ 0</div>
+        <div class="kpi-lbl">Total Volume</div>
+        <div class="kpi-glow green"></div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-top">
+          <div class="kpi-icon pink">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span class="kpi-change up">↑ Active</span>
+        </div>
+        <div class="kpi-val" id="kpi-sold">0</div>
+        <div class="kpi-lbl">Items Sold</div>
+        <div class="kpi-glow pink"></div>
+      </div>
+    </div>
+
+    <!-- Two column: top creators + recent NFTs -->
+    <div class="two-col">
+      <div class="panel">
+        <div class="panel-head">
+          <div class="panel-title"><span class="dot amber"></span>Top Creators by Earnings</div>
+          <a href="users.html" class="btn btn-ghost btn-sm">View all</a>
+        </div>
+        <div class="panel-body">
+          <div id="top-creators"></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <div class="panel-title"><span class="dot cyan"></span>Recent NFTs</div>
+          <a href="nfts.html" class="btn btn-ghost btn-sm">View all</a>
+        </div>
+        <div class="panel-body">
+          <div id="recent-nfts"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Two column: activity + platform breakdown -->
+    <div class="two-col">
+      <div class="panel">
+        <div class="panel-head">
+          <div class="panel-title"><span class="dot green"></span>Recent Activity</div>
+        </div>
+        <div class="panel-body">
+          <div class="activity-feed" id="activity-feed"></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <div class="panel-title"><span class="dot pink"></span>Platform Breakdown</div>
+        </div>
+        <div class="panel-body">
+          <div style="display:flex;flex-direction:column;gap:18px;padding-top:4px;">
+            <div>
+              <div style="display:flex;justify-content:space-between;margin-bottom:7px;">
+                <span style="font-size:.78rem;color:var(--text-2);">NFTs Sold</span>
+                <span style="font-size:.78rem;font-weight:700;color:var(--success);" id="ov-sold-pct">0%</span>
+              </div>
+              <div style="height:6px;background:rgba(255,255,255,.07);border-radius:99px;overflow:hidden;">
+                <div id="bar-sold" style="height:100%;background:var(--success);border-radius:99px;width:0%;transition:width .6s;"></div>
+              </div>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;margin-bottom:7px;">
+                <span style="font-size:.78rem;color:var(--text-2);">Active Listings</span>
+                <span style="font-size:.78rem;font-weight:700;color:var(--accent-2);" id="ov-listed-pct">0%</span>
+              </div>
+              <div style="height:6px;background:rgba(255,255,255,.07);border-radius:99px;overflow:hidden;">
+                <div id="bar-listed" style="height:100%;background:var(--accent-2);border-radius:99px;width:0%;transition:width .6s;"></div>
+              </div>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;margin-bottom:7px;">
+                <span style="font-size:.78rem;color:var(--text-2);">Verified Creators</span>
+                <span style="font-size:.78rem;font-weight:700;color:var(--accent);" id="ov-verified-pct">0%</span>
+              </div>
+              <div style="height:6px;background:rgba(255,255,255,.07);border-radius:99px;overflow:hidden;">
+                <div id="bar-verified" style="height:100%;background:var(--accent);border-radius:99px;width:0%;transition:width .6s;"></div>
+              </div>
+            </div>
+            <div style="border-top:1px solid var(--border);padding-top:18px;">
+              <div style="font-size:.72rem;color:var(--text-3);margin-bottom:6px;">Total Community Likes</div>
+              <div style="font-size:1.6rem;font-weight:700;color:var(--accent-3);" id="ov-likes-total">0</div>
+            </div>
+            <div style="display:flex;gap:10px;margin-top:4px;">
+              <a href="users.html" class="btn btn-ghost btn-sm" style="flex:1;justify-content:center;">Creators</a>
+              <a href="nfts.html" class="btn btn-primary btn-sm" style="flex:1;justify-content:center;">NFTs</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div id="toast-wrap"></div>
+<script src="../js/data.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Artist Profile — ArtsHub</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-logo">
+    <div class="logo-icon">◈</div>
+    <span>ArtsHub</span>
+  </div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Explore</a></li>
+    <li><a href="index.html#trending">Trending</a></li>
+    <li><a href="index.html#artists">Artists</a></li>
+    <li><a href="dashboard.html">Dashboard</a></li>
+  </ul>
+  <div class="nav-actions">
+    <div class="wallet-btn">
+      <div class="wallet-dot"></div>
+      <span>0x1a2b...9a0b</span>
+    </div>
+    <a href="dashboard.html" class="btn btn-primary btn-sm">Create</a>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- PROFILE HERO -->
+<div class="profile-hero" id="profileHero">
+  <div class="profile-content">
+    <a href="index.html" style="display:inline-flex;align-items:center;gap:6px;color:var(--text-secondary);font-size:0.82rem;margin-bottom:24px;transition:color var(--transition);" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-secondary)'">
+      ← Back to Explore
+    </a>
+    <div class="profile-top">
+      <div class="profile-avatar-wrap">
+        <div class="profile-avatar">
+          <img id="profileAvatar" src="" alt="Artist Avatar" />
+        </div>
+        <div class="verified-badge">✓</div>
+      </div>
+      <div class="profile-meta">
+        <div class="profile-name" id="profileName">Loading...</div>
+        <div class="profile-wallet">
+          <span id="profileWallet"></span>
+          <button class="copy-btn" onclick="copyWallet()">Copy</button>
+        </div>
+        <div class="profile-bio" id="profileBio"></div>
+        <div class="profile-stats-row">
+          <div class="profile-stat">
+            <div class="profile-stat-value earnings-value" id="profileEarnings">0 ETH</div>
+            <div class="profile-stat-label">Total Earnings</div>
+          </div>
+          <div class="profile-stat">
+            <div class="profile-stat-value" id="profileItems">0</div>
+            <div class="profile-stat-label">Items</div>
+          </div>
+          <div class="profile-stat">
+            <div class="profile-stat-value" id="profileFollowers">0</div>
+            <div class="profile-stat-label">Followers</div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-left:auto;">
+        <button class="btn btn-outline" onclick="followArtist()">+ Follow</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROFILE BODY -->
+<div class="profile-body">
+
+  <!-- Earnings Breakdown -->
+  <div class="profile-earnings-card" id="earningsCard">
+    <div class="earnings-block">
+      <div class="earnings-label">Total Earnings</div>
+      <div class="earnings-amount" id="earningTotal">0</div>
+      <div class="earnings-usd" id="earningUSD">≈ $0 USD</div>
+    </div>
+    <div class="earnings-divider"></div>
+    <div class="earnings-block">
+      <div class="earnings-label">Items Sold</div>
+      <div class="earnings-amount" id="earningsSold" style="font-size:1.4rem;">0</div>
+      <div class="earnings-usd">Completed Sales</div>
+    </div>
+    <div class="earnings-divider"></div>
+    <div class="earnings-block">
+      <div class="earnings-label">Active Listings</div>
+      <div class="earnings-amount" id="earningsActive" style="font-size:1.4rem;">0</div>
+      <div class="earnings-usd">Available Now</div>
+    </div>
+    <div class="earnings-divider"></div>
+    <div class="earnings-block">
+      <div class="earnings-label">Floor Price</div>
+      <div class="earnings-amount" id="earningsFloor" style="font-size:1.4rem;">0</div>
+      <div class="earnings-usd">Lowest Listed</div>
+    </div>
+  </div>
+
+  <!-- Filter -->
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px;">
+    <h3 style="font-size:1rem;font-weight:700;">All Items</h3>
+    <div class="filter-bar" id="profileFilter" style="margin:0;"></div>
+  </div>
+
+  <!-- NFT Grid -->
+  <div class="nft-grid" id="profileGrid"></div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-bottom">
+    <p>© 2026 ArtsHub. All rights reserved.</p>
+    <div class="social-links">
+      <a class="social-link" href="#">𝕏</a>
+      <a class="social-link" href="#">in</a>
+    </div>
+  </div>
+</footer>
+
+<div id="toast-container"></div>
+
+<script src="js/data.js"></script>
+<script src="js/artist.js"></script>
+</body>
+</html>

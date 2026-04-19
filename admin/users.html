@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Creators — ArtsHub Admin</title>
+  <link rel="stylesheet" href="css/admin.css"/>
+</head>
+<body>
+
+<nav class="navbar">
+  <a class="nav-logo" href="../index.html">
+    <div class="nav-logo-icon">◈</div>
+    <span class="nav-logo-text">ArtsHub</span>
+    <span class="nav-logo-badge">Admin</span>
+  </a>
+  <div class="nav-right">
+    <div class="admin-chip"><div class="admin-dot"></div>Admin Panel</div>
+    <button class="btn btn-ghost btn-sm" onclick="signOut()" style="border-color:rgba(255,255,255,.1);">Sign Out</button><button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="admin-layout">
+  <aside class="admin-sidebar">
+    <div class="sb-head">
+      <div class="sb-head-label">Control Center</div>
+      <div class="sb-head-sub">ArtsHub Administrator</div>
+    </div>
+    <nav class="sb-nav">
+      <div class="sb-group">Main</div>
+      <a class="sb-link" data-page="index.html" href="index.html">
+        <span class="sb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg></span>
+        Overview
+      </a>
+      <a class="sb-link" data-page="users.html" href="users.html">
+        <span class="sb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></span>
+        Creators <span class="sb-count" id="sb-creator-count">0</span>
+      </a>
+      <a class="sb-link" data-page="nfts.html" href="nfts.html">
+        <span class="sb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 20"/></svg></span>
+        NFTs <span class="sb-count" id="sb-nft-count">0</span>
+      </a>
+      <div class="sb-group" style="margin-top:4px;">System</div>
+      <a class="sb-link" data-page="settings.html" href="settings.html">
+        <span class="sb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2"/></svg></span>
+        Settings
+      </a>
+      <a class="sb-link" href="../index.html">
+        <span class="sb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>
+        View Marketplace
+      </a>
+      <a class="sb-link" href="../dashboard/index.html">
+        <span class="sb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg></span>
+        Creator Dashboard
+      </a>
+    </nav>
+    <div class="sb-footer">
+      <div class="sb-admin-info">
+        <div class="sb-admin-av">A</div>
+        <div>
+          <div class="sb-admin-name">Admin</div>
+          <div class="sb-admin-role">Super Administrator</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="admin-main">
+    <div class="breadcrumb">
+      <a href="../index.html">Home</a><span>/</span>
+      <a href="index.html">Admin</a><span>/</span><span>Creators</span>
+    </div>
+
+    <div class="page-head">
+      <div>
+        <div class="page-title">Creators</div>
+        <div class="page-sub">Manage all platform creators, verify accounts, edit profiles</div>
+      </div>
+      <div class="page-actions">
+        <button class="btn btn-primary" onclick="openAddCreator()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Add Creator
+        </button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <!-- Controls -->
+      <div class="dt-controls">
+        <div class="dt-left">
+          <div class="dt-search-wrap">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input class="dt-search" id="user-search" type="text" placeholder="Search creators, wallet…"/>
+          </div>
+          <div class="pill-row">
+            <button class="pill user-filter active" data-filter="all">All</button>
+            <button class="pill user-filter" data-filter="verified">Verified</button>
+            <button class="pill user-filter" data-filter="unverified">Unverified</button>
+            <button class="pill user-filter" data-filter="active">Active</button>
+            <button class="pill user-filter" data-filter="suspended">Suspended</button>
+          </div>
+        </div>
+        <div class="dt-right">
+          <button class="btn btn-ghost btn-sm" onclick="openAddCreator()">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            New Creator
+          </button>
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div class="tbl-wrap">
+        <table class="tbl" id="users-tbl"></table>
+      </div>
+
+      <!-- Pagination -->
+      <div class="dt-foot">
+        <span id="users-info"></span>
+        <div class="dt-pages" id="users-pages"></div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- ===== ADD CREATOR MODAL ===== -->
+<div class="modal-overlay" id="addCreatorModal">
+  <div class="modal modal-lg">
+    <div class="modal-head">
+      <div class="modal-title">◈ Add New Creator</div>
+      <button class="modal-close" onclick="closeModal('addCreatorModal')">✕</button>
+    </div>
+
+    <!-- Avatar preview -->
+    <div class="av-row">
+      <img class="av-preview" id="ac-avatar-preview" src="" alt="Preview"/>
+      <div class="av-actions">
+        <div style="font-size:.78rem;color:var(--text-2);">Avatar Preview</div>
+        <div style="font-size:.7rem;color:var(--text-3);">Enter URL below to preview</div>
+      </div>
+    </div>
+
+    <div class="modal-section">
+      <div class="modal-section-title">Identity</div>
+      <div class="fg-row">
+        <div class="fg">
+          <label class="fl">Display Name <span class="req">*</span></label>
+          <input class="fi" id="ac-name" type="text" placeholder="e.g. 0xNova"/>
+        </div>
+        <div class="fg">
+          <label class="fl">Avatar URL</label>
+          <input class="fi" id="ac-avatar" type="url" placeholder="https://…"/>
+        </div>
+      </div>
+      <div class="fg">
+        <label class="fl">Bio</label>
+        <textarea class="fi" id="ac-bio" rows="3" placeholder="Short creator bio…"></textarea>
+      </div>
+    </div>
+
+    <div class="modal-section">
+      <div class="modal-section-title">Wallet & Social</div>
+      <div class="fg-row">
+        <div class="fg">
+          <label class="fl">Wallet Address</label>
+          <input class="fi" id="ac-wallet" type="text" placeholder="0x…"/>
+          <div class="fi-hint">Leave blank to auto-generate</div>
+        </div>
+        <div class="fg">
+          <label class="fl">Twitter Handle</label>
+          <input class="fi" id="ac-twitter" type="text" placeholder="@handle"/>
+        </div>
+      </div>
+      <div class="fg">
+        <label class="fl">Website</label>
+        <input class="fi" id="ac-website" type="url" placeholder="https://yoursite.com"/>
+      </div>
+    </div>
+
+    <div class="modal-section">
+      <div class="modal-section-title">Stats</div>
+      <div class="fg-row">
+        <div class="fg">
+          <label class="fl">Total Earnings (ETH)</label>
+          <input class="fi" id="ac-earnings" type="number" step="0.01" placeholder="0.00"/>
+        </div>
+        <div class="fg">
+          <label class="fl">Followers</label>
+          <input class="fi" id="ac-followers" type="number" placeholder="0"/>
+        </div>
+      </div>
+      <div class="toggle-row">
+        <div>
+          <div class="toggle-label">Verified Creator</div>
+          <div class="toggle-desc">Show verification badge on profile</div>
+        </div>
+        <label class="toggle"><input type="checkbox" id="ac-verified"/><span class="toggle-slider"></span></label>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('addCreatorModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveNewCreator()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+        Create Creator
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== EDIT CREATOR MODAL ===== -->
+<div class="modal-overlay" id="editCreatorModal">
+  <div class="modal modal-lg">
+    <div class="modal-head">
+      <div class="modal-title">✎ Edit Creator</div>
+      <button class="modal-close" onclick="closeModal('editCreatorModal')">✕</button>
+    </div>
+
+    <div class="av-row">
+      <img class="av-preview" id="ec-avatar-preview" src="" alt="Preview"/>
+      <div class="av-actions">
+        <div style="font-size:.78rem;color:var(--text-2);">Avatar Preview</div>
+        <div style="font-size:.7rem;color:var(--text-3);">Update URL below to change</div>
+      </div>
+    </div>
+
+    <div class="modal-section">
+      <div class="modal-section-title">Identity</div>
+      <div class="fg-row">
+        <div class="fg">
+          <label class="fl">Display Name <span class="req">*</span></label>
+          <input class="fi" id="ec-name" type="text"/>
+        </div>
+        <div class="fg">
+          <label class="fl">Avatar URL</label>
+          <input class="fi" id="ec-avatar" type="url"/>
+        </div>
+      </div>
+      <div class="fg">
+        <label class="fl">Bio</label>
+        <textarea class="fi" id="ec-bio" rows="3"></textarea>
+      </div>
+    </div>
+
+    <div class="modal-section">
+      <div class="modal-section-title">Wallet & Social</div>
+      <div class="fg-row">
+        <div class="fg">
+          <label class="fl">Wallet Address</label>
+          <input class="fi" id="ec-wallet" type="text"/>
+        </div>
+        <div class="fg">
+          <label class="fl">Twitter Handle</label>
+          <input class="fi" id="ec-twitter" type="text"/>
+        </div>
+      </div>
+      <div class="fg">
+        <label class="fl">Website</label>
+        <input class="fi" id="ec-website" type="url"/>
+      </div>
+    </div>
+
+    <div class="modal-section">
+      <div class="modal-section-title">Stats & Status</div>
+      <div class="fg-row">
+        <div class="fg">
+          <label class="fl">Total Earnings (ETH)</label>
+          <input class="fi" id="ec-earnings" type="number" step="0.01"/>
+        </div>
+        <div class="fg">
+          <label class="fl">Followers</label>
+          <input class="fi" id="ec-followers" type="number"/>
+        </div>
+      </div>
+      <div class="toggle-row">
+        <div>
+          <div class="toggle-label">Verified Creator</div>
+          <div class="toggle-desc">Show verification badge on profile</div>
+        </div>
+        <label class="toggle"><input type="checkbox" id="ec-verified"/><span class="toggle-slider"></span></label>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('editCreatorModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveEditCreator()">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CONFIRM DIALOG ===== -->
+<div class="confirm-overlay modal-overlay" id="confirmDialog">
+  <div class="confirm-box">
+    <div class="confirm-icon" id="confirm-icon">⚠️</div>
+    <div class="confirm-title" id="confirm-title">Are you sure?</div>
+    <div class="confirm-sub" id="confirm-sub">This action cannot be undone.</div>
+    <div class="confirm-btns">
+      <button class="btn btn-ghost" onclick="confirmNo()">Cancel</button>
+      <button class="btn btn-danger" onclick="confirmYes()">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast-wrap"></div>
+<script src="../js/data.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ArtsHub — NFT Marketplace</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-logo">
+    <div class="logo-icon">◈</div>
+    <span>ArtsHub</span>
+  </div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html" class="active">Explore</a></li>
+    <li><a href="#trending">Trending</a></li>
+    <li><a href="#artists">Artists</a></li>
+    <li><a href="dashboard/index.html">Dashboard</a></li>
+    <li><a href="admin/index.html">Admin</a></li>
+  </ul>
+  <div class="nav-actions">
+    <div class="wallet-btn">
+      <div class="wallet-dot"></div>
+      <span>0x1a2b...9a0b</span>
+    </div>
+    <a href="auth/login.html" class="btn btn-ghost btn-sm" id="nav-login-btn">Sign In</a>
+    <a href="auth/register.html" class="btn btn-primary btn-sm" id="nav-register-btn">Get Started</a>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">✦ Web3 Digital Marketplace</div>
+    <h1>Discover &amp; Collect<br><span class="gradient-text">Rare Digital Art</span></h1>
+    <p>The premier marketplace for rare digital art, collectibles, and NFTs. Buy, sell, and discover exclusive pieces from the world's top artists.</p>
+    <div class="hero-actions">
+      <a href="#explore" class="btn btn-primary">Explore Collections</a>
+      <a href="dashboard/index.html" class="btn btn-ghost">Create &amp; Sell</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item"><div class="stat-value">24K+</div><div class="stat-label">Artworks</div></div>
+      <div class="stat-item"><div class="stat-value">8.4K</div><div class="stat-label">Artists</div></div>
+      <div class="stat-item"><div class="stat-value">$12M</div><div class="stat-label">Volume</div></div>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-card-stack">
+      <div class="hero-nft-card"><img src="https://picsum.photos/seed/hero1/300/300" alt="NFT" /></div>
+      <div class="hero-nft-card"><img src="https://picsum.photos/seed/hero2/300/300" alt="NFT" /></div>
+      <div class="hero-nft-card"><img src="https://picsum.photos/seed/hero3/300/300" alt="NFT" /></div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPLORE -->
+<section id="explore">
+  <div class="section-header">
+    <div class="section-title">
+      <div class="tag">Live Now</div>
+      <h2>Explore Collections</h2>
+      <p>Hand-picked pieces from our top creators</p>
+    </div>
+  </div>
+  <div class="filter-bar" id="filterBar">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="Art">Art</button>
+    <button class="filter-btn" data-filter="3D">3D</button>
+    <button class="filter-btn" data-filter="Animation">Animation</button>
+    <button class="filter-btn" data-filter="Photography">Photography</button>
+    <button class="filter-btn" data-filter="Music">Music</button>
+    <button class="filter-btn" data-filter="Pixel Art">Pixel Art</button>
+    <button class="filter-btn" data-filter="Glitch">Glitch</button>
+  </div>
+  <div class="nft-grid" id="nftGrid"></div>
+</section>
+
+<!-- TRENDING -->
+<section id="trending" style="background: var(--bg-secondary);">
+  <div class="section-header">
+    <div class="section-title">
+      <div class="tag">Hot 🔥</div>
+      <h2>Trending NFTs</h2>
+      <p>Most-watched in the last 24 hours</p>
+    </div>
+  </div>
+  <div class="trending-list" id="trendingList"></div>
+</section>
+
+<!-- TOP ARTISTS -->
+<section id="artists">
+  <div class="section-header">
+    <div class="section-title">
+      <div class="tag">Creators</div>
+      <h2>Top Artists</h2>
+      <p>Ranked by total sales volume</p>
+    </div>
+  </div>
+  <div class="artists-grid" id="artistsGrid"></div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="nav-logo"><div class="logo-icon">◈</div><span>ArtsHub</span></div>
+      <p>The premier Web3 marketplace for digital art and collectibles. Empowering creators worldwide.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Marketplace</h4>
+      <a href="#">All NFTs</a><a href="#">Art</a><a href="#">Photography</a><a href="#">Music</a>
+    </div>
+    <div class="footer-col">
+      <h4>Account</h4>
+      <a href="dashboard/index.html">Dashboard</a><a href="#">My Collection</a><a href="#">Settings</a>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <a href="#">About</a><a href="#">Blog</a><a href="#">Careers</a><a href="#">Contact</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 ArtsHub. All rights reserved.</p>
+    <div class="social-links">
+      <a class="social-link" href="#">𝕏</a>
+      <a class="social-link" href="#">in</a>
+      <a class="social-link" href="#">▶</a>
+    </div>
+  </div>
+</footer>
+
+<!-- TOAST -->
+<div id="toast-container"></div>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script>
+  /* Swap auth nav based on session */
+  (function() {
+    try {
+      const s = JSON.parse(localStorage.getItem('artsHub_session') || 'null');
+      if (s && s.loggedIn) {
+        const loginBtn    = document.getElementById('nav-login-btn');
+        const registerBtn = document.getElementById('nav-register-btn');
+        if (loginBtn) {
+          loginBtn.textContent = s.name || 'Dashboard';
+          loginBtn.href = s.role === 'admin' ? 'admin/index.html' : 'dashboard/index.html';
+          loginBtn.className = 'btn btn-ghost btn-sm';
+        }
+        if (registerBtn) {
+          registerBtn.textContent = 'Sign Out';
+          registerBtn.href = '#';
+          registerBtn.onclick = function(e) {
+            e.preventDefault();
+            localStorage.removeItem('artsHub_session');
+            window.location.reload();
+          };
+        }
+      }
+    } catch(e) {}
+  })();
+</script>
+</body>
+</html>

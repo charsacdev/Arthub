@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Mint NFT — ArtsHub Dashboard</title>
+  <link rel="stylesheet" href="css/dashboard.css"/>
+</head>
+<body>
+
+<nav class="navbar">
+  <a class="nav-logo" href="../index.html">
+    <div class="nav-logo-icon">◈</div>
+    <span class="nav-logo-text">ArtsHub</span>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="../index.html">Explore</a></li>
+    <li><a href="../index.html#trending">Trending</a></li>
+    <li><a href="../index.html#artists">Artists</a></li>
+    <li><a href="index.html" class="active">Dashboard</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="wallet-chip"><div class="wallet-dot"></div><span id="nav-wallet">0x…</span></div>
+    <button class="btn btn-ghost btn-sm" onclick="signOut()" style="border-color:rgba(255,255,255,.1);">Sign Out</button><button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="db-layout">
+  <aside class="db-sidebar">
+    <div class="sb-profile">
+      <div class="sb-avatar"><img id="sb-avatar-img" src="" alt="Avatar"/><div class="sb-online"></div></div>
+      <div><div class="sb-name" id="sb-name">—</div><div class="sb-role">Creator</div></div>
+    </div>
+    <nav class="sb-nav">
+      <div class="sb-group-label">Main</div>
+      <a class="sb-link" data-page="index.html" href="index.html"><span class="sb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg></span>Overview<span class="sb-badge">New</span></a>
+      <a class="sb-link" data-page="items.html" href="items.html"><span class="sb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 20"/></svg></span>My Items<span class="sb-count" id="sb-item-count">0</span></a>
+      <a class="sb-link" data-page="earnings.html" href="earnings.html"><span class="sb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span>Earnings</a>
+      <a class="sb-link" data-page="mint.html" href="mint.html"><span class="sb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></span>Mint NFT</a>
+      <div class="sb-group-label" style="margin-top:4px;">Account</div>
+      <a class="sb-link" data-page="profile.html" href="profile.html"><span class="sb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>Edit Profile</a>
+      <a class="sb-link" href="../index.html"><span class="sb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>Marketplace</a><a class="sb-link" href="../admin/index.html"><span class="sb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>Admin Panel</a>
+    </nav>
+    <div class="sb-footer">
+      <div class="sb-storage-head"><span>Storage Used</span><span>68%</span></div>
+      <div class="sb-storage-track"><div class="sb-storage-fill" style="width:68%"></div></div>
+      <div class="sb-storage-note">3.4 GB of 5 GB</div>
+    </div>
+  </aside>
+
+  <main class="db-main">
+    <div class="breadcrumb">
+      <a href="../index.html">Home</a><span>/</span>
+      <a href="index.html">Dashboard</a><span>/</span><span>Mint NFT</span>
+    </div>
+
+    <div class="page-head">
+      <div>
+        <div class="page-title">Mint NFT</div>
+        <div class="page-sub">Upload your artwork and publish it on-chain</div>
+      </div>
+    </div>
+
+    <div class="mint-layout">
+      <!-- Drop zone -->
+      <div class="panel">
+        <div class="panel-head">
+          <div class="panel-title"><span class="dot cyan"></span>Artwork Upload</div>
+        </div>
+        <div class="panel-body">
+          <div class="drop-zone" id="drop-zone">
+            <div id="drop-default">
+              <div class="drop-icon">🖼</div>
+              <div class="drop-title">Drop your file here</div>
+              <div class="drop-sub">PNG · JPG · GIF · MP4 · GLB — max 100 MB</div>
+              <div class="drop-types">
+                <span>PNG</span><span>JPG</span><span>GIF</span><span>MP4</span><span>GLB</span>
+              </div>
+            </div>
+            <img id="drop-preview" class="drop-preview" src="" alt="Preview"/>
+            <input type="file" id="file-input" accept="image/*,video/*" style="display:none;"/>
+          </div>
+          <div style="margin-top:14px;text-align:center;">
+            <button class="btn btn-ghost btn-sm" onclick="document.getElementById('file-input').click()">
+              Browse Files
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form -->
+      <div class="panel">
+        <div class="panel-head">
+          <div class="panel-title"><span class="dot"></span>NFT Details</div>
+        </div>
+        <div class="panel-body">
+          <div class="fg">
+            <label class="fl">NFT Name <span class="req">*</span></label>
+            <input class="fi" id="mint-name" type="text" placeholder="e.g. Neon Genesis #4"/>
+          </div>
+          <div class="fg">
+            <label class="fl">Description</label>
+            <textarea class="fi" id="mint-desc" rows="3" placeholder="Describe your artwork…" style="resize:vertical;"></textarea>
+          </div>
+          <div class="fi-row">
+            <div class="fg">
+              <label class="fl">Category</label>
+              <select class="fi" id="mint-cat">
+                <option>Art</option><option>3D</option><option>Animation</option>
+                <option>Photography</option><option>Music</option><option>Pixel Art</option><option>Glitch</option>
+              </select>
+            </div>
+            <div class="fg">
+              <label class="fl">Price (ETH) <span class="req">*</span></label>
+              <div class="fi-prefix">
+                <span class="fi-prefix-sym">Ξ</span>
+                <input class="fi" id="mint-price" type="number" step="0.01" placeholder="1.00"/>
+              </div>
+            </div>
+          </div>
+          <div class="fg">
+            <label class="fl">Royalty (%)</label>
+            <input class="fi" id="mint-royalty" type="number" step="0.5" max="50" placeholder="10"/>
+          </div>
+          <div class="mint-cta">
+            <button class="btn btn-primary mint-btn" onclick="submitMint()">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+              Mint &amp; Publish NFT
+            </button>
+            <div class="mint-note">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Gas fees apply. Estimated: ~0.002 ETH
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div id="toast-wrap"></div>
+<script src="../js/data.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>

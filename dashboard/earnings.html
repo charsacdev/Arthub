@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Earnings — ArtsHub Dashboard</title>
+  <link rel="stylesheet" href="css/dashboard.css"/>
+</head>
+<body>
+
+<nav class="navbar">
+  <a class="nav-logo" href="../index.html">
+    <div class="nav-logo-icon">◈</div>
+    <span class="nav-logo-text">ArtsHub</span>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="../index.html">Explore</a></li>
+    <li><a href="../index.html#trending">Trending</a></li>
+    <li><a href="../index.html#artists">Artists</a></li>
+    <li><a href="index.html" class="active">Dashboard</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="wallet-chip"><div class="wallet-dot"></div><span id="nav-wallet">0x…</span></div>
+    <button class="btn btn-ghost btn-sm" onclick="signOut()" style="border-color:rgba(255,255,255,.1);">Sign Out</button><button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="db-layout">
+  <aside class="db-sidebar">
+    <div class="sb-profile">
+      <div class="sb-avatar"><img id="sb-avatar-img" src="" alt="Avatar"/><div class="sb-online"></div></div>
+      <div><div class="sb-name" id="sb-name">—</div><div class="sb-role">Creator</div></div>
+    </div>
+    <nav class="sb-nav">
+      <div class="sb-group-label">Main</div>
+      <a class="sb-link" data-page="index.html" href="index.html"><span class="sb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg></span>Overview<span class="sb-badge">New</span></a>
+      <a class="sb-link" data-page="items.html" href="items.html"><span class="sb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 20"/></svg></span>My Items<span class="sb-count" id="sb-item-count">0</span></a>
+      <a class="sb-link" data-page="earnings.html" href="earnings.html"><span class="sb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span>Earnings</a>
+      <a class="sb-link" data-page="mint.html" href="mint.html"><span class="sb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></span>Mint NFT</a>
+      <div class="sb-group-label" style="margin-top:4px;">Account</div>
+      <a class="sb-link" data-page="profile.html" href="profile.html"><span class="sb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>Edit Profile</a>
+      <a class="sb-link" href="../index.html"><span class="sb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>Marketplace</a><a class="sb-link" href="../admin/index.html"><span class="sb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>Admin Panel</a>
+    </nav>
+    <div class="sb-footer">
+      <div class="sb-storage-head"><span>Storage Used</span><span>68%</span></div>
+      <div class="sb-storage-track"><div class="sb-storage-fill" style="width:68%"></div></div>
+      <div class="sb-storage-note">3.4 GB of 5 GB</div>
+    </div>
+  </aside>
+
+  <main class="db-main">
+    <div class="breadcrumb">
+      <a href="../index.html">Home</a><span>/</span>
+      <a href="index.html">Dashboard</a><span>/</span><span>Earnings</span>
+    </div>
+
+    <div class="page-head">
+      <div>
+        <div class="page-title">Earnings</div>
+        <div class="page-sub">Your complete revenue &amp; sales breakdown</div>
+      </div>
+    </div>
+
+    <!-- Hero metrics -->
+    <div class="earnings-hero">
+      <div class="earn-block">
+        <div class="earn-label">Total Earnings</div>
+        <div class="earn-value grad" id="earn-total">Ξ 0</div>
+        <div class="earn-sub" id="earn-usd">≈ $0 USD</div>
+      </div>
+      <div class="earn-block">
+        <div class="earn-label">Items Sold</div>
+        <div class="earn-value" id="earn-sold">0</div>
+        <div class="earn-sub">Completed sales</div>
+      </div>
+      <div class="earn-block">
+        <div class="earn-label">Active Listings</div>
+        <div class="earn-value" id="earn-active">0</div>
+        <div class="earn-sub">Available now</div>
+      </div>
+      <div class="earn-block">
+        <div class="earn-label">Floor Price</div>
+        <div class="earn-value" id="earn-floor">—</div>
+        <div class="earn-sub">Lowest listed</div>
+      </div>
+    </div>
+
+    <!-- Sold items table -->
+    <div class="panel">
+      <div class="panel-head">
+        <div class="panel-title"><span class="dot pink"></span>Sold Items</div>
+      </div>
+      <div class="tbl-wrap">
+        <table class="tbl" id="sold-tbl"></table>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div id="toast-wrap"></div>
+<script src="../js/data.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>
