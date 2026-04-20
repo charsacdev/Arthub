@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>Sign In — ArtsHub</title>
+  <title>Sign In — MetaVault</title>
   <link rel="stylesheet" href="css/auth.css"/>
 </head>
 <body>
@@ -17,7 +17,7 @@
     <div class="brand-top">
       <a class="brand-logo" href="../index.html">
         <div class="brand-logo-icon">◈</div>
-        <span class="brand-logo-text">ArtsHub</span>
+        <span class="brand-logo-text">MetaVault</span>
       </a>
       <div class="brand-headline">
         The Premier<br/><span>Web3 Art</span><br/>Marketplace
@@ -108,7 +108,7 @@
       </div>
 
       <div class="auth-title">Welcome back</div>
-      <div class="auth-sub">Sign in to your ArtsHub account to continue</div>
+      <div class="auth-sub">Sign in to your MetaVault account to continue</div>
 
       <!-- Wallet Connect -->
       <button class="wallet-btn-auth" id="wallet-btn" onclick="connectWallet()">
@@ -159,7 +159,7 @@
         </div>
 
         <button class="btn-auth" id="login-btn" type="submit">
-          <span class="btn-text">Sign In to ArtsHub</span>
+          <span class="btn-text">Sign In to MetaVault</span>
           <div class="btn-spinner"></div>
         </button>
 
@@ -200,16 +200,16 @@
 <script>
   function fillDemo(type) {
     if (type === 'admin') {
-      document.getElementById('login-email').value = 'admin@artshub.io';
+      document.getElementById('login-email').value = 'admin@metavault.io';
       document.getElementById('login-pw').value    = 'admin123';
     } else {
       // Auto-register a demo creator if not exists
-      const users = JSON.parse(localStorage.getItem('artsHub_users') || '[]');
-      if (!users.find(u => u.email === 'demo@artshub.io')) {
-        users.push({ id: Date.now(), name: '0xNova', email: 'demo@artshub.io', password: 'demo1234', role: 'creator', createdAt: new Date().toISOString() });
-        localStorage.setItem('artsHub_users', JSON.stringify(users));
+      const users = JSON.parse(localStorage.getItem('metaVault_users') || '[]');
+      if (!users.find(u => u.email === 'demo@metavault.io')) {
+        users.push({ id: Date.now(), name: '0xNova', email: 'demo@metavault.io', password: 'demo1234', role: 'creator', createdAt: new Date().toISOString() });
+        localStorage.setItem('metaVault_users', JSON.stringify(users));
       }
-      document.getElementById('login-email').value = 'demo@artshub.io';
+      document.getElementById('login-email').value = 'demo@metavault.io';
       document.getElementById('login-pw').value    = 'demo1234';
     }
     setFieldState('login-email', 'success', '');

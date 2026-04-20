@@ -1,12 +1,12 @@
 /* ============================================================
-   ArtsHub — Auth JS
+   MetaVault — Auth JS
    ============================================================ */
 
 /* ---- Constants ---- */
-const ADMIN_EMAIL    = 'admin@artshub.io';
+const ADMIN_EMAIL    = 'admin@metavault.io';
 const ADMIN_PASSWORD = 'admin123';
-const SESSION_KEY    = 'artsHub_session';
-const USERS_KEY      = 'artsHub_users';
+const SESSION_KEY    = 'metaVault_session';
+const USERS_KEY      = 'metaVault_users';
 
 /* ---- Toast ---- */
 function toast(msg, type = 'ok') {

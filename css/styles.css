@@ -375,6 +375,9 @@ footer {
 @media (max-width: 768px) {
   .nav-links { display: none; }
   .hamburger { display: flex; }
+  .wallet-btn { display: none; }
+  #nav-login-btn { display: none; }
+  #nav-register-btn { display: none; }
   .nav-links.open { display: flex; flex-direction: column; position: fixed; top: 70px; left: 0; right: 0; background: var(--bg-secondary); border-bottom: 1px solid var(--border); padding: 20px 5%; z-index: 99; }
   .dashboard-layout { grid-template-columns: 1fr; }
   .sidebar { width: 100%; position: relative; top: 0; }

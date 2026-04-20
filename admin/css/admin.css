@@ -1,5 +1,5 @@
 /* ============================================================
-   ArtsHub Admin Panel — Complete Stylesheet
+   MetaVault Admin Panel — Complete Stylesheet
    ============================================================ */
 
 /* === RESET & BASE === */
@@ -665,6 +665,8 @@ textarea.fi { resize: vertical; }
   .admin-sidebar.open { transform: translateX(0); }
   .admin-main { margin-left: 0; width: 100%; padding: 20px 16px; }
   .hamburger { display: flex; }
+  .nav-logo-badge { display: none; }
+  .admin-chip { display: none; }
   .kpi-grid { grid-template-columns: 1fr 1fr; }
   .fg-row { grid-template-columns: 1fr; }
   .page-head { flex-direction: column; }

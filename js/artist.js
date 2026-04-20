@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
-  document.title = `${artist.artist} — ArtsHub`;
+  document.title = `${artist.artist} — MetaVault`;
 
   // Populate profile hero
   document.getElementById('profileAvatar').src = artist.avatar;

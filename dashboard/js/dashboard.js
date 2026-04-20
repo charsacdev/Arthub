@@ -1,5 +1,5 @@
 /* ============================================================
-   ArtsHub Dashboard — All JS (single file)
+   MetaVault Dashboard — All JS (single file)
    ============================================================ */
 
 /* ── Helpers ── */
@@ -41,10 +41,24 @@ function initSidebar() {
     if (link.dataset.page === page) link.classList.add('active');
   });
 
-  /* hamburger */
+  /* hamburger — toggles sidebar on mobile */
   const hbg = $('hamburger');
-  const nav = $('navLinks');
-  if (hbg && nav) hbg.addEventListener('click', () => nav.classList.toggle('open'));
+  const sb  = document.querySelector('.db-sidebar');
+  if (hbg && sb) {
+    /* create overlay once */
+    let overlay = document.querySelector('.sb-overlay');
+    if (!overlay) {
+      overlay = document.createElement('div');
+      overlay.className = 'sb-overlay';
+      document.body.appendChild(overlay);
+    }
+    const toggleSidebar = () => {
+      sb.classList.toggle('open');
+      overlay.style.display = sb.classList.contains('open') ? 'block' : 'none';
+    };
+    hbg.addEventListener('click', toggleSidebar);
+    overlay.addEventListener('click', toggleSidebar);
+  }
 }
 
 /* ============================================================
@@ -311,13 +325,13 @@ function saveProfile() {
    AUTH
    ============================================================ */
 function signOut() {
-  localStorage.removeItem('artsHub_session');
+  localStorage.removeItem('metaVault_session');
   window.location.href = '../auth/login.html';
 }
 
 function initNavSession() {
   try {
-    const s = JSON.parse(localStorage.getItem('artsHub_session') || 'null');
+    const s = JSON.parse(localStorage.getItem('metaVault_session') || 'null');
     if (s && s.name) setText('sb-name', s.name);
   } catch(e) {}
 }

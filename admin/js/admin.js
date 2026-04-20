@@ -1,5 +1,5 @@
 /* ============================================================
-   ArtsHub Admin Panel — Complete JS (single file)
+   MetaVault Admin Panel — Complete JS (single file)
    ============================================================ */
 
 /* ============================================================
@@ -25,7 +25,7 @@ const adminState = {
    DATA BOOTSTRAP — merges COLLECTIONS with localStorage edits
    ============================================================ */
 function loadAdminState() {
-  const raw = localStorage.getItem('artsHub_admin');
+  const raw = localStorage.getItem('metaVault_admin');
   const overrides = raw ? JSON.parse(raw) : {};
   const ovCreators = overrides.creators || [];
   const newCreators = overrides.newCreators || [];
@@ -76,14 +76,14 @@ function persistState() {
       .filter(c => c.id >= 9000)
       .map(c => ({ ...c })),
   };
-  localStorage.setItem('artsHub_admin', JSON.stringify(payload));
+  localStorage.setItem('metaVault_admin', JSON.stringify(payload));
 }
 
 /* ============================================================
    AUTH
    ============================================================ */
 function signOut() {
-  localStorage.removeItem('artsHub_session');
+  localStorage.removeItem('metaVault_session');
   window.location.href = 'login.html';
 }
 
@@ -767,13 +767,13 @@ function saveEditNFT() {
    SETTINGS PAGE
    ============================================================ */
 function renderSettings() {
-  const s = JSON.parse(localStorage.getItem('artsHub_settings') || '{}');
-  setVal('set-name',      s.platformName   || 'ArtsHub');
+  const s = JSON.parse(localStorage.getItem('metaVault_settings') || '{}');
+  setVal('set-name',      s.platformName   || 'MetaVault');
   setVal('set-fee',       s.platformFee    ?? '2.5');
   setVal('set-max-royal', s.maxRoyalty     ?? '50');
   setVal('set-min-price', s.minPrice       ?? '0.01');
-  setVal('set-email',     s.contactEmail   || 'admin@artshub.io');
-  setVal('set-twitter',   s.twitter        || '@artshub');
+  setVal('set-email',     s.contactEmail   || 'admin@metavault.io');
+  setVal('set-twitter',   s.twitter        || '@metavault');
   setVal('set-tagline',   s.tagline        || 'The premier Web3 art marketplace');
 
   const bools = { 'set-maintenance': false, 'set-registration': true, 'set-verify-req': false, 'set-nsfw': false };
@@ -801,15 +801,15 @@ function saveSettings() {
     'set-verify-req':   getChecked('set-verify-req'),
     'set-nsfw':         getChecked('set-nsfw'),
   };
-  localStorage.setItem('artsHub_settings', JSON.stringify(s));
+  localStorage.setItem('metaVault_settings', JSON.stringify(s));
   toast('Settings saved successfully');
 }
 
 async function resetPlatformData() {
   const ok = await showConfirm('Reset All Data', 'This will wipe all admin edits and restore original platform data. Are you sure?', '⚠️');
   if (!ok) return;
-  localStorage.removeItem('artsHub_admin');
-  localStorage.removeItem('artsHub_settings');
+  localStorage.removeItem('metaVault_admin');
+  localStorage.removeItem('metaVault_settings');
   loadAdminState();
   renderSettings();
   initSidebar();
@@ -862,7 +862,7 @@ document.addEventListener('DOMContentLoaded', () => {
   /* Guard: must be logged in as admin */
   (function () {
     try {
-      const s = JSON.parse(localStorage.getItem('artsHub_session') || 'null');
+      const s = JSON.parse(localStorage.getItem('metaVault_session') || 'null');
       if (!s || s.role !== 'admin') {
         const current = location.pathname.split('/').slice(-2).join('/');
         window.location.replace('login.html?next=' + encodeURIComponent(current));
