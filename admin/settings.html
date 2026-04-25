@@ -16,7 +16,9 @@
   </a>
   <div class="nav-right">
     <div class="admin-chip"><div class="admin-dot"></div>Admin Panel</div>
-    <button class="btn btn-ghost btn-sm" onclick="signOut()" style="border-color:rgba(255,255,255,.1);">Sign Out</button><button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    <button class="btn btn-ghost btn-sm" onclick="signOut()" style="border-color:rgba(255,255,255,.1);">Sign Out</button>
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme"><svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/></svg></button>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
   </div>
 </nav>
 
@@ -73,184 +75,95 @@
 
     <div class="page-head">
       <div>
-        <div class="page-title">Platform Settings</div>
-        <div class="page-sub">Configure global marketplace behaviour and policies</div>
-      </div>
-      <div class="page-actions">
-        <button class="btn btn-primary" onclick="saveSettings()">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
-          Save All Settings
-        </button>
-      </div>
-    </div>
-
-    <!-- Platform stats bar -->
-    <div class="kpi-grid" style="margin-bottom:26px;">
-      <div class="kpi-card">
-        <div class="kpi-top">
-          <div class="kpi-icon amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
-        </div>
-        <div class="kpi-val" id="set-total-creators">—</div>
-        <div class="kpi-lbl">Total Creators</div>
-        <div class="kpi-glow amber"></div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-top">
-          <div class="kpi-icon cyan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16"/></svg></div>
-        </div>
-        <div class="kpi-val" id="set-total-nfts">—</div>
-        <div class="kpi-lbl">Total NFTs</div>
-        <div class="kpi-glow cyan"></div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-top">
-          <div class="kpi-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
-        </div>
-        <div class="kpi-val" id="set-total-volume">—</div>
-        <div class="kpi-lbl">Total Volume</div>
-        <div class="kpi-glow green"></div>
-      </div>
-      <div class="kpi-card" style="background:rgba(255,69,96,.04);border-color:rgba(255,69,96,.12);">
-        <div class="kpi-top">
-          <div class="kpi-icon" style="background:rgba(255,69,96,.1);color:var(--danger);">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-          </div>
-        </div>
-        <div class="kpi-val" style="color:var(--danger);font-size:1rem;margin-top:2px;">Danger Zone</div>
-        <div class="kpi-lbl">Reset / Export below</div>
+        <div class="page-title">Settings</div>
+        <div class="page-sub">Manage your admin profile, platform fee, and account security</div>
       </div>
     </div>
 
     <div class="settings-grid">
-      <!-- Left column -->
-      <div>
-        <!-- Platform Info -->
+
+      <!-- LEFT: Profile + Platform Fee -->
+      <div style="display:flex;flex-direction:column;gap:22px;">
+
+        <!-- Admin Profile -->
         <div class="panel">
           <div class="panel-head">
-            <div class="panel-title"><span class="dot amber"></span>Platform Information</div>
+            <div class="panel-title"><span class="dot amber"></span>Admin Profile</div>
           </div>
           <div class="panel-body">
             <div class="fg">
-              <label class="fl">Platform Name</label>
-              <input class="fi" id="set-name" type="text"/>
-            </div>
-            <div class="fg">
-              <label class="fl">Tagline</label>
-              <input class="fi" id="set-tagline" type="text"/>
-            </div>
-            <div class="fg">
-              <label class="fl">Contact Email</label>
-              <input class="fi" id="set-email" type="email"/>
+              <label class="fl">Display Name</label>
+              <input class="fi" id="set-admin-name" type="text" placeholder="Admin"/>
             </div>
             <div class="fg" style="margin-bottom:0;">
-              <label class="fl">Twitter Handle</label>
-              <input class="fi" id="set-twitter" type="text"/>
+              <label class="fl">Email Address</label>
+              <input class="fi" id="set-admin-email" type="email" placeholder="admin@metavault.io"/>
             </div>
+          </div>
+          <div style="padding:0 20px 20px;">
+            <button class="btn btn-primary btn-sm" onclick="saveSettings()">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+              Save Profile
+            </button>
           </div>
         </div>
 
-        <!-- Fee Structure -->
+        <!-- Platform Fee -->
         <div class="panel">
           <div class="panel-head">
-            <div class="panel-title"><span class="dot green"></span>Fee Structure</div>
+            <div class="panel-title"><span class="dot green"></span>Platform Fee</div>
           </div>
           <div class="panel-body">
-            <div class="fg">
-              <label class="fl">Platform Fee (%)</label>
-              <input class="fi" id="set-fee" type="number" step="0.1" min="0" max="20"/>
+            <div class="fg" style="margin-bottom:0;">
+              <label class="fl">Fee Percentage (%)</label>
+              <input class="fi" id="set-fee" type="number" step="0.1" min="0" max="20" placeholder="2.5"/>
               <div class="fi-hint">Percentage taken from each sale (e.g. 2.5 = 2.5%)</div>
             </div>
-            <div class="fg">
-              <label class="fl">Maximum Royalty (%)</label>
-              <input class="fi" id="set-max-royal" type="number" step="1" min="0" max="100"/>
-              <div class="fi-hint">Max royalty creators can set on secondary sales</div>
-            </div>
-            <div class="fg" style="margin-bottom:0;">
-              <label class="fl">Minimum Listing Price (ETH)</label>
-              <input class="fi" id="set-min-price" type="number" step="0.001" min="0"/>
-              <div class="fi-hint">Enforce a floor price for all listings</div>
-            </div>
+          </div>
+          <div style="padding:0 20px 20px;">
+            <button class="btn btn-primary btn-sm" onclick="saveSettings()">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+              Save Fee
+            </button>
           </div>
         </div>
+
       </div>
 
-      <!-- Right column -->
+      <!-- RIGHT: Password Update -->
       <div>
-        <!-- Toggles -->
         <div class="panel">
           <div class="panel-head">
-            <div class="panel-title"><span class="dot cyan"></span>Platform Controls</div>
+            <div class="panel-title"><span class="dot cyan"></span>Update Password</div>
           </div>
           <div class="panel-body">
-            <div class="toggle-row">
-              <div class="toggle-info">
-                <div class="toggle-label">Maintenance Mode</div>
-                <div class="toggle-desc">Takes the marketplace offline for users</div>
-              </div>
-              <label class="toggle"><input type="checkbox" id="set-maintenance"/><span class="toggle-slider"></span></label>
+            <div class="fg">
+              <label class="fl">Current Password</label>
+              <input class="fi" id="set-pass-current" type="password" placeholder="••••••••"/>
             </div>
-            <div class="toggle-row">
-              <div class="toggle-info">
-                <div class="toggle-label">Open Registration</div>
-                <div class="toggle-desc">Allow new creators to join the platform</div>
-              </div>
-              <label class="toggle"><input type="checkbox" id="set-registration"/><span class="toggle-slider"></span></label>
+            <div class="fg">
+              <label class="fl">New Password</label>
+              <input class="fi" id="set-pass-new" type="password" placeholder="••••••••"/>
             </div>
-            <div class="toggle-row">
-              <div class="toggle-info">
-                <div class="toggle-label">Require Verification to List</div>
-                <div class="toggle-desc">Only verified creators can mint NFTs</div>
-              </div>
-              <label class="toggle"><input type="checkbox" id="set-verify-req"/><span class="toggle-slider"></span></label>
+            <div class="fg" style="margin-bottom:0;">
+              <label class="fl">Confirm New Password</label>
+              <input class="fi" id="set-pass-confirm" type="password" placeholder="••••••••"/>
             </div>
-            <div class="toggle-row">
-              <div class="toggle-info">
-                <div class="toggle-label">Allow NSFW Content</div>
-                <div class="toggle-desc">Permit adult-rated artwork submissions</div>
-              </div>
-              <label class="toggle"><input type="checkbox" id="set-nsfw"/><span class="toggle-slider"></span></label>
-            </div>
+          </div>
+          <div style="padding:0 20px 20px;">
+            <button class="btn btn-primary btn-sm" onclick="savePassword()">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+              Update Password
+            </button>
           </div>
         </div>
-
-        <!-- Danger Zone -->
-        <div class="panel" style="border-color:rgba(255,69,96,.15);">
-          <div class="panel-head" style="border-color:rgba(255,69,96,.1);">
-            <div class="panel-title" style="color:var(--danger);"><span class="dot" style="background:var(--danger);"></span>Danger Zone</div>
-          </div>
-          <div class="panel-body">
-            <div style="display:flex;flex-direction:column;gap:12px;">
-              <div style="padding:14px;background:rgba(255,69,96,.05);border:1px solid rgba(255,69,96,.1);border-radius:12px;">
-                <div style="font-size:.82rem;font-weight:600;color:var(--text);margin-bottom:4px;">Reset Admin Data</div>
-                <div style="font-size:.74rem;color:var(--text-3);margin-bottom:12px;">Wipes all admin edits and restores original mock data. Creator data added via admin will be lost.</div>
-                <button class="btn btn-danger btn-sm" onclick="resetPlatformData()">
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
-                  Reset to Defaults
-                </button>
-              </div>
-              <div style="padding:14px;background:rgba(245,158,11,.04);border:1px solid rgba(245,158,11,.1);border-radius:12px;">
-                <div style="font-size:.82rem;font-weight:600;color:var(--text);margin-bottom:4px;">Export Platform Data</div>
-                <div style="font-size:.74rem;color:var(--text-3);margin-bottom:12px;">Download all creator and NFT data as JSON for backup or migration.</div>
-                <button class="btn btn-ghost btn-sm" onclick="exportData()">
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                  Export JSON
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Save button (repeat) -->
-        <button class="btn btn-primary" style="width:100%;justify-content:center;" onclick="saveSettings()">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
-          Save All Settings
-        </button>
       </div>
+
     </div>
   </main>
 </div>
 
-<!-- ===== CONFIRM DIALOG ===== -->
+<!-- CONFIRM DIALOG -->
 <div class="confirm-overlay modal-overlay" id="confirmDialog">
   <div class="confirm-box">
     <div class="confirm-icon" id="confirm-icon">⚠️</div>
@@ -266,20 +179,5 @@
 <div id="toast-wrap"></div>
 <script src="../js/data.js"></script>
 <script src="js/admin.js"></script>
-<script>
-function exportData() {
-  const data = {
-    creators: adminState.creators,
-    nfts: adminState.nfts,
-    exportedAt: new Date().toISOString(),
-  };
-  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url; a.download = 'metavault-export.json';
-  a.click(); URL.revokeObjectURL(url);
-  toast('Data exported successfully');
-}
-</script>
 </body>
 </html>

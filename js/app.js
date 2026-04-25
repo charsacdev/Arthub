@@ -1,4 +1,14 @@
 // ===== HELPERS =====
+function polAmt(n) { return `<span class="pol-icon">${typeof n === 'number' ? n.toFixed(2) : n}</span>`; }
+
+function initTheme() {
+  if (localStorage.getItem('metaVault_theme') === 'light') document.body.classList.add('light');
+}
+function toggleTheme() {
+  document.body.classList.toggle('light');
+  localStorage.setItem('metaVault_theme', document.body.classList.contains('light') ? 'light' : 'dark');
+}
+
 function toast(msg, type = 'success') {
   const c = document.getElementById('toast-container');
   const t = document.createElement('div');
@@ -26,7 +36,7 @@ function nftCardHTML(item, artist) {
         <div class="nft-title">${item.name}</div>
         <div class="nft-artist">by <a href="artist.html?id=${artist.id}" onclick="event.stopPropagation()">${artist.artist}</a></div>
         <div class="nft-footer">
-          <div class="nft-price"><span class="eth">Ξ</span> ${item.price.toFixed(2)}</div>
+          <div class="nft-price">${polAmt(item.price)}</div>
           <button class="btn-buy" ${isSold ? 'disabled' : ''} onclick="event.stopPropagation();buyNFT('${item.name}',${item.price})">
             ${isSold ? 'Sold Out' : 'Buy Now'}
           </button>
@@ -53,7 +63,7 @@ function likeNFT(el, id) {
 
 // ===== BUY =====
 function buyNFT(name, price) {
-  toast(`Purchasing "${name}" for Ξ ${price.toFixed(2)}...`);
+  toast(`Purchasing "${name}" for ${polAmt(price)}...`);
   setTimeout(() => toast(`"${name}" purchased successfully! 🎉`), 1500);
 }
 
@@ -91,7 +101,7 @@ function renderTrending() {
         <div class="trending-meta">by <a href="artist.html?id=${item.artistId}" onclick="event.stopPropagation()" style="color:var(--accent-2);">${item.artistName}</a> · ${item.category}</div>
       </div>
       <div style="text-align:right;">
-        <div class="trending-price">Ξ ${item.price.toFixed(2)}</div>
+        <div class="trending-price">${polAmt(item.price)}</div>
         <div class="trending-change change-up">♥ ${item.likes}</div>
       </div>
     </div>`).join('');
@@ -107,7 +117,7 @@ function renderArtists() {
       <div class="artist-rank">${i + 1}</div>
       <div class="artist-avatar"><img src="${a.avatar}" alt="${a.artist}" /></div>
       <div class="artist-name"><a href="artist.html?id=${a.id}" onclick="event.stopPropagation()">${a.artist}</a></div>
-      <div class="artist-volume">Volume: <span>Ξ ${a.totalEarnings.toFixed(2)}</span></div>
+      <div class="artist-volume">Volume: ${polAmt(a.totalEarnings)}</div>
     </div>`).join('');
 }
 
@@ -133,6 +143,7 @@ function initHamburger() {
 
 // ===== INIT =====
 document.addEventListener('DOMContentLoaded', () => {
+  initTheme();
   renderGrid();
   renderTrending();
   renderArtists();

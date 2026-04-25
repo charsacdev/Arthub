@@ -2,6 +2,20 @@
    MetaVault Admin Panel — Complete JS (single file)
    ============================================================ */
 
+/* ── Helpers ── */
+function setText(id, v) { const el = document.getElementById(id); if (el) el.textContent = v; }
+function setHtml(id, v) { const el = document.getElementById(id); if (el) el.innerHTML = v; }
+function polAmt(n) { return `<span class="pol-icon">${typeof n === 'number' ? n.toFixed(2) : n}</span>`; }
+
+/* ── Theme ── */
+function initTheme() {
+  if (localStorage.getItem('metaVault_theme') === 'light') document.body.classList.add('light');
+}
+function toggleTheme() {
+  document.body.classList.toggle('light');
+  localStorage.setItem('metaVault_theme', document.body.classList.contains('light') ? 'light' : 'dark');
+}
+
 /* ============================================================
    STATE
    ============================================================ */
@@ -91,7 +105,7 @@ function signOut() {
    HELPERS
    ============================================================ */
 function $id(id) { return document.getElementById(id); }
-function setText(id, v) { const el = $id(id); if (el) el.textContent = v; }
+function setVal(id, v) { const el = $id(id); if (el) el.value = v; }
 function setVal(id, v) { const el = $id(id); if (el) el.value = v; }
 function getVal(id) { const el = $id(id); return el ? el.value.trim() : ''; }
 function getChecked(id) { const el = $id(id); return el ? el.checked : false; }
@@ -223,7 +237,7 @@ function renderOverview() {
 
   setText('kpi-creators', totalCreators);
   setText('kpi-nfts',     totalNFTs);
-  setText('kpi-volume',   `Ξ ${totalVolume.toFixed(2)}`);
+  setHtml('kpi-volume',   polAmt(totalVolume));
   setText('kpi-sold',     totalSold);
 
   renderTopCreators();
@@ -272,7 +286,7 @@ function renderTopCreators() {
         </div>
         <div style="font-size:.7rem;color:var(--text-3);">${(c.items || []).length} items · ${(c.followers || 0).toLocaleString()} followers</div>
       </div>
-      <div style="font-size:.85rem;font-weight:700;color:var(--accent);">Ξ ${(c.totalEarnings || 0).toFixed(2)}</div>
+      <div style="font-size:.85rem;font-weight:700;color:var(--accent);">${polAmt(c.totalEarnings || 0)}</div>
     </div>
   `).join('');
 }
@@ -290,7 +304,7 @@ function renderRecentNFTs() {
         <div style="font-size:.7rem;color:var(--text-3);">by ${n.artistName} · ${n.category}</div>
       </div>
       <div style="text-align:right;">
-        <div style="font-size:.81rem;font-weight:700;color:var(--text);">Ξ ${n.price}</div>
+        <div style="font-size:.81rem;font-weight:700;color:var(--text);">${polAmt(n.price)}</div>
         <span class="badge ${n.sold ? 'badge-sold' : 'badge-live'}" style="margin-top:3px;display:inline-flex;">${n.sold ? 'Sold' : 'Live'}</span>
       </div>
     </div>
@@ -302,11 +316,11 @@ function renderActivityFeed() {
   if (!el) return;
   const feed = [
     { icon: '🎨', bg: 'rgba(108,63,255,.12)', col: 'var(--accent-4)', text: '<strong>0xNova</strong> minted "Neon Genesis #7"', time: '2 min ago' },
-    { icon: '💰', bg: 'rgba(0,229,160,.1)',   col: 'var(--success)',   text: '<strong>MetaVera</strong> sold "World Zero" for Ξ 12.0', time: '11 min ago' },
+    { icon: '💰', bg: 'rgba(0,229,160,.1)',   col: 'var(--success)',   text: '<strong>MetaVera</strong> sold "World Zero" for ${polAmt(12.0)}', time: '11 min ago' },
     { icon: '✅', bg: 'rgba(245,158,11,.1)',  col: 'var(--accent)',    text: 'Admin <strong>verified</strong> creator PixelSaint', time: '1 hr ago' },
     { icon: '👤', bg: 'rgba(0,212,255,.1)',   col: 'var(--accent-2)', text: 'New creator <strong>CryptoMuse</strong> joined', time: '2 hr ago' },
     { icon: '🚫', bg: 'rgba(255,69,96,.08)', col: 'var(--danger)',    text: 'Admin removed listing "Void Fragment"', time: '3 hr ago' },
-    { icon: '📈', bg: 'rgba(0,229,160,.1)',   col: 'var(--success)',   text: 'Platform volume crossed <strong>Ξ 500</strong>', time: 'Yesterday' },
+    { icon: '📈', bg: 'rgba(0,229,160,.1)',   col: 'var(--success)',   text: 'Platform volume crossed <strong><strong>${polAmt(500)}</strong></strong>', time: 'Yesterday' },
   ];
   el.innerHTML = feed.map(f => `
     <div class="a-item">
@@ -398,7 +412,7 @@ function buildUsersTable(data) {
           </td>
           <td><span class="td-mono">${c.wallet ? c.wallet.slice(0, 10) + '…' + c.wallet.slice(-4) : '—'}</span></td>
           <td style="color:var(--text);font-weight:600;">${(c.items || []).length}</td>
-          <td style="color:var(--accent);font-weight:700;">Ξ ${(c.totalEarnings || 0).toFixed(2)}</td>
+          <td style="color:var(--accent);font-weight:700;">${polAmt(c.totalEarnings || 0)}</td>
           <td>${(c.followers || 0).toLocaleString()}</td>
           <td>
             <button onclick="toggleVerify(${c.id})"
@@ -576,7 +590,7 @@ function renderNFTStats() {
     </div>
     <div class="kpi-card">
       <div class="kpi-top"><div class="kpi-icon pink"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div></div>
-      <div class="kpi-val">Ξ ${volume.toFixed(1)}</div><div class="kpi-lbl">Total Volume</div>
+      <div class="kpi-val">${polAmt(volume)}</div><div class="kpi-lbl">Total Volume</div>
       <div class="kpi-glow pink"></div>
     </div>
   `;
@@ -653,7 +667,7 @@ function buildNFTsTable(data) {
             <div style="font-size:.8rem;color:var(--text);font-weight:500;">${n.artistName || '—'}</div>
           </td>
           <td><span class="badge badge-cat">${n.category || '—'}</span></td>
-          <td style="color:var(--accent);font-weight:700;">Ξ ${n.price}</td>
+          <td style="color:var(--accent);font-weight:700;">${polAmt(n.price)}</td>
           <td style="color:var(--text-2);">♥ ${n.likes || 0}</td>
           <td><span class="badge ${n.sold ? 'badge-sold' : 'badge-live'}">${n.sold ? 'Sold' : 'Live'}</span></td>
           <td>
@@ -768,41 +782,31 @@ function saveEditNFT() {
    ============================================================ */
 function renderSettings() {
   const s = JSON.parse(localStorage.getItem('metaVault_settings') || '{}');
-  setVal('set-name',      s.platformName   || 'MetaVault');
-  setVal('set-fee',       s.platformFee    ?? '2.5');
-  setVal('set-max-royal', s.maxRoyalty     ?? '50');
-  setVal('set-min-price', s.minPrice       ?? '0.01');
-  setVal('set-email',     s.contactEmail   || 'admin@metavault.io');
-  setVal('set-twitter',   s.twitter        || '@metavault');
-  setVal('set-tagline',   s.tagline        || 'The premier Web3 art marketplace');
-
-  const bools = { 'set-maintenance': false, 'set-registration': true, 'set-verify-req': false, 'set-nsfw': false };
-  Object.entries(bools).forEach(([id, def]) => {
-    const el = $id(id); if (el) el.checked = s[id] !== undefined ? s[id] : def;
-  });
-
-  setText('set-total-creators', adminState.creators.length);
-  setText('set-total-nfts', adminState.nfts.length);
-  const vol = adminState.creators.reduce((s, c) => s + (c.totalEarnings || 0), 0);
-  setText('set-total-volume', `Ξ ${vol.toFixed(2)}`);
+  setVal('set-admin-name',  s.adminName    || 'Admin');
+  setVal('set-admin-email', s.adminEmail   || 'admin@metavault.io');
+  setVal('set-fee',         s.platformFee  ?? '2.5');
 }
 
 function saveSettings() {
-  const s = {
-    platformName: getVal('set-name'),
-    platformFee:  getVal('set-fee'),
-    maxRoyalty:   getVal('set-max-royal'),
-    minPrice:     getVal('set-min-price'),
-    contactEmail: getVal('set-email'),
-    twitter:      getVal('set-twitter'),
-    tagline:      getVal('set-tagline'),
-    'set-maintenance':  getChecked('set-maintenance'),
-    'set-registration': getChecked('set-registration'),
-    'set-verify-req':   getChecked('set-verify-req'),
-    'set-nsfw':         getChecked('set-nsfw'),
-  };
+  const s = JSON.parse(localStorage.getItem('metaVault_settings') || '{}');
+  s.adminName   = getVal('set-admin-name');
+  s.adminEmail  = getVal('set-admin-email');
+  s.platformFee = getVal('set-fee');
   localStorage.setItem('metaVault_settings', JSON.stringify(s));
   toast('Settings saved successfully');
+}
+
+function savePassword() {
+  const curr = getVal('set-pass-current');
+  const next  = getVal('set-pass-new');
+  const conf  = getVal('set-pass-confirm');
+  if (!curr || !next || !conf) { toast('All password fields are required', 'err'); return; }
+  if (next !== conf)           { toast('New passwords do not match', 'err'); return; }
+  if (next.length < 6)        { toast('Password must be at least 6 characters', 'err'); return; }
+  toast('Password updated successfully');
+  $id('set-pass-current').value = '';
+  $id('set-pass-new').value     = '';
+  $id('set-pass-confirm').value = '';
 }
 
 async function resetPlatformData() {
@@ -859,6 +863,7 @@ function bindPreview(inputId, previewId) {
    BOOT
    ============================================================ */
 document.addEventListener('DOMContentLoaded', () => {
+  initTheme();
   /* Guard: must be logged in as admin */
   (function () {
     try {

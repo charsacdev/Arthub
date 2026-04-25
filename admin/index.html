@@ -16,7 +16,7 @@
   </a>
   <div class="nav-right">
     <div class="admin-chip"><div class="admin-dot"></div>Admin Panel</div>
-    <button class="btn btn-ghost btn-sm" onclick="signOut()" style="border-color:rgba(255,255,255,.1);">Sign Out</button><button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    <button class="btn btn-ghost btn-sm" onclick="signOut()" style="border-color:rgba(255,255,255,.1);">Sign Out</button><button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme"><svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/></svg></button><button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
   </div>
 </nav>
 
@@ -115,7 +115,7 @@
           </div>
           <span class="kpi-change up">↑ 12.4%</span>
         </div>
-        <div class="kpi-val" id="kpi-volume">Ξ 0</div>
+        <div class="kpi-val" id="kpi-volume"><span class="pol-icon">0</span></div>
         <div class="kpi-lbl">Total Volume</div>
         <div class="kpi-glow green"></div>
       </div>

@@ -21,7 +21,7 @@
   </ul>
   <div class="nav-right">
     <div class="wallet-chip"><div class="wallet-dot"></div><span id="nav-wallet">0x…</span></div>
-    <button class="btn btn-ghost btn-sm" onclick="signOut()" style="border-color:rgba(255,255,255,.1);">Sign Out</button><button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    <button class="btn btn-ghost btn-sm" onclick="signOut()" style="border-color:rgba(255,255,255,.1);">Sign Out</button><button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme"><svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/></svg></button><button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
   </div>
 </nav>
 
@@ -35,6 +35,7 @@
       <div class="sb-group-label">Main</div>
       <a class="sb-link" data-page="index.html" href="index.html"><span class="sb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg></span>Overview<span class="sb-badge">New</span></a>
       <a class="sb-link" data-page="items.html" href="items.html"><span class="sb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 20"/></svg></span>My Items<span class="sb-count" id="sb-item-count">0</span></a>
+            <a class="sb-link" data-page="withdraw.html" href="withdraw.html"><span class="sb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2v20M17 7H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></span>Withdraw</a>
       <a class="sb-link" data-page="earnings.html" href="earnings.html"><span class="sb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span>Earnings</a>
       <a class="sb-link" data-page="mint.html" href="mint.html"><span class="sb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></span>Mint NFT</a>
       <div class="sb-group-label" style="margin-top:4px;">Account</div>
@@ -113,7 +114,7 @@
             <div class="fg">
               <label class="fl">Price (ETH) <span class="req">*</span></label>
               <div class="fi-prefix">
-                <span class="fi-prefix-sym">Ξ</span>
+                <span class="fi-prefix-sym"><span class="pol-icon"></span></span>
                 <input class="fi" id="mint-price" type="number" step="0.01" placeholder="1.00"/>
               </div>
             </div>

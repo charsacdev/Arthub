@@ -1,4 +1,6 @@
 // ===== HELPERS =====
+function polAmt(n) { return `<span class="pol-icon">${typeof n === 'number' ? n.toFixed(2) : n}</span>`; }
+
 function toast(msg, type = 'success') {
   const c = document.getElementById('toast-container');
   const t = document.createElement('div');
@@ -32,7 +34,7 @@ function likeNFT(el, id) {
 }
 
 function buyNFT(name, price) {
-  toast(`Purchasing "${name}" for Ξ ${price.toFixed(2)}...`);
+  toast(`Purchasing "${name}" for ${polAmt(price)}...`);
   setTimeout(() => toast(`"${name}" purchased! 🎉`), 1500);
 }
 
@@ -75,7 +77,7 @@ function nftCardHTML(item) {
         <div class="nft-title">${item.name}</div>
         <div class="nft-artist" style="color:var(--text-muted);font-size:0.75rem;">${item.category}</div>
         <div class="nft-footer">
-          <div class="nft-price"><span class="eth">Ξ</span> ${item.price.toFixed(2)}</div>
+          <div class="nft-price">${polAmt(item.price)}</div>
           <button class="btn-buy" ${isSold ? 'disabled' : ''} onclick="buyNFT('${item.name}',${item.price})">
             ${isSold ? 'Sold Out' : 'Buy Now'}
           </button>
@@ -116,11 +118,11 @@ function renderEarningsCard(artist) {
   const soldEarnings = sold.reduce((s, i) => s + i.price, 0);
   const floor = active.length ? Math.min(...active.map(i => i.price)) : 0;
 
-  document.getElementById('earningTotal').textContent = `Ξ ${artist.totalEarnings.toFixed(2)}`;
+  document.getElementById('earningTotal').innerHTML = polAmt(artist.totalEarnings);
   document.getElementById('earningUSD').textContent = `≈ ${ethToUSD(artist.totalEarnings)}`;
   document.getElementById('earningsSold').textContent = sold.length;
   document.getElementById('earningsActive').textContent = active.length;
-  document.getElementById('earningsFloor').textContent = floor > 0 ? `Ξ ${floor.toFixed(2)}` : 'N/A';
+  document.getElementById('earningsFloor').innerHTML = floor > 0 ? polAmt(floor) : 'N/A';
 }
 
 // ===== HAMBURGER =====
@@ -147,7 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('profileName').textContent = artist.artist;
   document.getElementById('profileWallet').textContent = artist.wallet;
   document.getElementById('profileBio').textContent = artist.bio;
-  document.getElementById('profileEarnings').textContent = `Ξ ${artist.totalEarnings.toFixed(2)}`;
+  document.getElementById('profileEarnings').innerHTML = polAmt(artist.totalEarnings);
   document.getElementById('profileItems').textContent = artist.items.length;
   document.getElementById('profileFollowers').textContent = artist.followers.toLocaleString();
 

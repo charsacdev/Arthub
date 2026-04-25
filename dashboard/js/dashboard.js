@@ -5,8 +5,19 @@
 /* ── Helpers ── */
 function $(id)    { return document.getElementById(id); }
 function setText(id, v) { const el = $(id); if (el) el.textContent = v; }
+function setHtml(id, v) { const el = $(id); if (el) el.innerHTML = v; }
+function polAmt(n) { return `<span class="pol-icon">${typeof n === 'number' ? n.toFixed(2) : n}</span>`; }
 function ethToUSD(e) {
   return (e * 3420).toLocaleString('en-US', { style:'currency', currency:'USD' });
+}
+
+/* ── Theme ── */
+function initTheme() {
+  if (localStorage.getItem('metaVault_theme') === 'light') document.body.classList.add('light');
+}
+function toggleTheme() {
+  document.body.classList.toggle('light');
+  localStorage.setItem('metaVault_theme', document.body.classList.contains('light') ? 'light' : 'dark');
 }
 
 function toast(msg, type = 'ok') {
@@ -85,7 +96,7 @@ function mintFromModal() {
 
   createNFT(name, cat, price);
   closeModal('mintModal');
-  toast(`"${name}" minted for Ξ ${price.toFixed(2)} 🎉`);
+  toast(`"${name}" minted ${polAmt(price)} 🎉`);
   $('mm-name').value  = '';
   $('mm-price').value = '';
 
@@ -116,7 +127,7 @@ function renderOverview() {
   const likes = a.items.reduce((s,i) => s + i.likes, 0);
 
   setText('ov-name',     a.artist);
-  setText('ov-earnings', `Ξ ${a.totalEarnings.toFixed(2)}`);
+  setHtml('ov-earnings', polAmt(a.totalEarnings));
   setText('ov-items',    a.items.length);
   setText('ov-sold',     sold.length);
   setText('ov-likes',    likes.toLocaleString());
@@ -132,7 +143,7 @@ function renderOverview() {
           <div class="item-cat">${item.category}</div>
         </div>
         <div class="item-right">
-          <div class="item-price">Ξ ${item.price.toFixed(2)}</div>
+          <div class="item-price">${polAmt(item.price)}</div>
           <div class="item-status ${item.sold?'s-sold':'s-live'}">${item.sold?'Sold':'Listed'}</div>
         </div>
       </div>`).join('');
@@ -169,7 +180,7 @@ function itemRow(item) {
       <div><div class="tbl-name">${item.name}</div><div class="tbl-cat">${item.category}</div></div>
     </div></td>
     <td><span class="badge ${item.sold?'badge-sold':'badge-live'}">${item.sold?'Sold':'Listed'}</span></td>
-    <td class="tbl-price">Ξ ${item.price.toFixed(2)}</td>
+    <td class="tbl-price">${polAmt(item.price)}</td>
     <td class="tbl-likes">♥ ${item.likes}</td>
     <td><div class="tbl-actions">
       ${!item.sold?`<button class="act act-edit" onclick="editPrice(${item.id})">Edit</button>`:''}
@@ -183,7 +194,7 @@ function editPrice(id) {
   const item = a?.items.find(i=>i.id===id);
   if (!item) return;
   const p = parseFloat(prompt(`New price for "${item.name}" (ETH):`, item.price));
-  if (!isNaN(p) && p > 0) { item.price = p; renderAllItems(); toast(`Price → Ξ ${p.toFixed(2)}`); }
+  if (!isNaN(p) && p > 0) { item.price = p; renderAllItems(); toast(`Price → ${polAmt(p)}`); }
 }
 
 function removeItem(id) {
@@ -218,11 +229,11 @@ function renderEarnings() {
   const active = a.items.filter(i=>!i.sold);
   const floor  = active.length ? Math.min(...active.map(i=>i.price)) : 0;
 
-  setText('earn-total',  `Ξ ${a.totalEarnings.toFixed(2)}`);
+  setHtml('earn-total',  polAmt(a.totalEarnings));
   setText('earn-usd',    `≈ ${ethToUSD(a.totalEarnings)}`);
   setText('earn-sold',   sold.length);
   setText('earn-active', active.length);
-  setText('earn-floor',  floor > 0 ? `Ξ ${floor.toFixed(2)}` : '—');
+  setHtml('earn-floor',  floor > 0 ? polAmt(floor) : '—');
 
   const tbl = $('sold-tbl');
   if (!tbl) return;
@@ -234,7 +245,7 @@ function renderEarnings() {
         <div><div class="tbl-name">${item.name}</div><div class="tbl-cat">${item.category}</div></div>
       </div></td>
       <td><span class="badge badge-sold">Sold</span></td>
-      <td class="tbl-price">Ξ ${item.price.toFixed(2)}</td>
+      <td class="tbl-price">${polAmt(item.price)}</td>
       <td class="tbl-likes">♥ ${item.likes}</td>
       <td></td>
     </tr>`).join('') :
@@ -285,7 +296,7 @@ function submitMint() {
   if (!price || price<= 0) { toast('Enter a valid price','err'); return; }
 
   createNFT(name, cat, price);
-  toast(`"${name}" minted and listed for Ξ ${price.toFixed(2)} 🎉`);
+  toast(`"${name}" minted and listed ${polAmt(price)} 🎉`);
 
   $('mint-name').value  = '';
   $('mint-price').value = '';
@@ -307,7 +318,7 @@ function renderProfile() {
   setText('prof-name',      a.artist);
   setText('prof-wallet-txt', a.wallet);
   setText('prof-wallet-display', a.wallet);
-  setText('prof-ws-earnings', `Ξ ${a.totalEarnings.toFixed(2)}`);
+  setHtml('prof-ws-earnings', polAmt(a.totalEarnings));
   setText('prof-ws-items',   a.items.length);
   setText('prof-ws-followers', a.followers.toLocaleString());
 
@@ -319,6 +330,31 @@ function renderProfile() {
 
 function saveProfile() {
   toast('Profile updated successfully!');
+}
+
+/* ============================================================
+   WITHDRAW page  (withdraw.html)
+   ============================================================ */
+function renderWithdraw() {
+  const a = getArtist();
+  if (!a) return;
+  const cap = a.totalEarnings * 0.01;
+  setHtml('wd-total',      polAmt(a.totalEarnings));
+  setHtml('wd-cap',        polAmt(cap));
+  setHtml('wd-cap2',       polAmt(cap));
+  const inp = $('wd-amount');
+  if (inp) inp.max = cap.toFixed(4);
+}
+
+function submitWithdraw() {
+  const a   = getArtist();
+  if (!a) return;
+  const cap = a.totalEarnings * 0.01;
+  const amt = parseFloat($('wd-amount')?.value || 0);
+  if (!amt || amt <= 0)    { toast('Enter a valid amount', 'err'); return; }
+  if (amt > cap)           { toast(`Max withdrawal is ${polAmt(cap)}`, 'err'); return; }
+  toast(`Withdrawal of ${polAmt(amt)} requested — pending confirmation`);
+  $('wd-amount').value = '';
 }
 
 /* ============================================================
@@ -349,6 +385,7 @@ function initNav() {
    BOOT — each page calls what it needs via data-page attribute
    ============================================================ */
 document.addEventListener('DOMContentLoaded', () => {
+  initTheme();
   initSidebar();
   initNav();
 
@@ -359,4 +396,5 @@ document.addEventListener('DOMContentLoaded', () => {
   if (page === 'earnings.html') renderEarnings();
   if (page === 'mint.html')     initMintPage();
   if (page === 'profile.html')  renderProfile();
+  if (page === 'withdraw.html') renderWithdraw();
 });

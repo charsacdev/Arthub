@@ -393,3 +393,54 @@ footer {
   .nft-grid { grid-template-columns: 1fr; }
   .artists-grid { grid-template-columns: repeat(2, 1fr); }
 }
+
+/* ============================================================
+   POLYGON ICON
+   ============================================================ */
+.pol-icon {
+  display: inline-flex; align-items: center; gap: 4px;
+  white-space: nowrap; vertical-align: middle;
+}
+.pol-icon::before {
+  content: ''; display: inline-block; width: 14px; height: 14px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 38.4 33.5'%3E%3Cpath fill='%238247e5' d='M29 10.2c-.7-.4-1.6-.4-2.4 0L21 13.5l-3.8 2.1-5.5 3.3c-.7.4-1.6.4-2.4 0L5 16.3c-.7-.4-1.2-1.2-1.2-2.1v-5c0-.8.4-1.6 1.2-2.1l4.3-2.5c.7-.4 1.6-.4 2.4 0L16 7.2c.7.4 1.2 1.2 1.2 2.1v3.3l3.8-2.2V6.9c0-.8-.4-1.6-1.2-2.1l-8-4.7c-.7-.4-1.6-.4-2.4 0L1.2 5C.4 5.4 0 6.2 0 7.1v9.4c0 .8.4 1.6 1.2 2.1l8.1 4.7c.7.4 1.6.4 2.4 0l5.5-3.2 3.8-2.2 5.5-3.2c.7-.4 1.6-.4 2.4 0l4.3 2.5c.7.4 1.2 1.2 1.2 2.1v5c0 .8-.4 1.6-1.2 2.1L29 28.8c-.7.4-1.6.4-2.4 0l-4.3-2.5c-.7-.4-1.2-1.2-1.2-2.1v-3.3l-3.8 2.2v3.3c0 .8.4 1.6 1.2 2.1l8.1 4.7c.7.4 1.6.4 2.4 0l8.1-4.7c.7-.4 1.2-1.2 1.2-2.1V17c0-.8-.4-1.6-1.2-2.1L29 10.2z'/%3E%3C/svg%3E") no-repeat center/contain;
+  flex-shrink: 0;
+}
+.eth { display: none; }
+
+/* ============================================================
+   THEME TOGGLE
+   ============================================================ */
+.theme-toggle {
+  width: 34px; height: 34px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(255,255,255,.06); border: 1px solid var(--border);
+  color: var(--text-secondary); cursor: pointer; transition: all var(--transition); flex-shrink: 0;
+}
+.theme-toggle:hover { background: rgba(255,255,255,.1); color: var(--text-primary); }
+.theme-toggle svg { width: 16px; height: 16px; }
+.theme-toggle .icon-sun { display: none; }
+.theme-toggle .icon-moon { display: block; }
+body.light .theme-toggle .icon-sun { display: block; }
+body.light .theme-toggle .icon-moon { display: none; }
+
+/* ============================================================
+   LIGHT MODE
+   ============================================================ */
+body.light {
+  --bg-primary:   #f5f7ff;
+  --bg-secondary: #eef1fb;
+  --bg-card:      #ffffff;
+  --bg-card-hover:#f0f3ff;
+  --border:       #d4daf0;
+  --text-primary: #0d1224;
+  --text-secondary:#3d4f70;
+  --text-muted:   #7a8cb0;
+  --gradient-hero: linear-gradient(135deg, #eef1fb 0%, #e6deff 50%, #eef1fb 100%);
+  --gradient-card: linear-gradient(145deg, #ffffff, #f0f3ff);
+}
+body.light .navbar { background: rgba(245,247,255,.95); border-bottom-color: var(--border); }
+body.light .nft-card { border-color: var(--border); }
+body.light .filter-btn { border-color: var(--border); color: var(--text-secondary); background: #fff; }
+body.light footer { background: var(--bg-secondary); }
+body.light .theme-toggle { background: rgba(0,0,0,.05); border-color: var(--border); }
