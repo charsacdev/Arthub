@@ -339,9 +339,10 @@ function renderWithdraw() {
   const a = getArtist();
   if (!a) return;
   const cap = a.totalEarnings * 0.01;
-  setHtml('wd-total',      polAmt(a.totalEarnings));
-  setHtml('wd-cap',        polAmt(cap));
-  setHtml('wd-cap2',       polAmt(cap));
+  setHtml('wd-total',    polAmt(a.totalEarnings));
+  setHtml('wd-cap',      polAmt(cap));
+  setHtml('wd-cap2',     polAmt(cap));
+  setHtml('wd-max-label', polAmt(cap));
   const inp = $('wd-amount');
   if (inp) inp.max = cap.toFixed(4);
 }
@@ -355,6 +356,73 @@ function submitWithdraw() {
   if (amt > cap)           { toast(`Max withdrawal is ${polAmt(cap)}`, 'err'); return; }
   toast(`Withdrawal of ${polAmt(amt)} requested — pending confirmation`);
   $('wd-amount').value = '';
+}
+
+/* ============================================================
+   REFERRAL page  (referral.html)
+   ============================================================ */
+const MOCK_REFERRALS = [
+  { name: 'AstroPixel',  joined: '2026-03-12', items: 4,  commission: 2.14, status: 'Active' },
+  { name: 'NeonDreamer', joined: '2026-03-28', items: 2,  commission: 0.88, status: 'Active' },
+  { name: 'VoidCraft',   joined: '2026-04-05', items: 7,  commission: 3.52, status: 'Active' },
+  { name: 'LunaFrame',   joined: '2026-04-17', items: 1,  commission: 0.31, status: 'Pending' },
+  { name: 'CryptoSage',  joined: '2026-04-29', items: 0,  commission: 0,    status: 'Pending' },
+];
+
+function renderReferral() {
+  const a = getArtist();
+  if (!a) return;
+
+  const code     = 'MV-' + (a.artist || 'USER').replace(/\s+/g, '').toUpperCase().slice(0, 6);
+  const baseUrl  = window.location.origin + '/auth/register.html';
+  const refLink  = `${baseUrl}?ref=${code}`;
+  const total    = MOCK_REFERRALS.length;
+  const commission = MOCK_REFERRALS.reduce((s, r) => s + r.commission, 0);
+  const pending    = MOCK_REFERRALS.filter(r => r.status === 'Pending').length;
+  const pendingAmt = MOCK_REFERRALS.filter(r => r.status === 'Pending').reduce((s, r) => s + r.commission, 0);
+
+  setText('ref-code',         code);
+  setText('ref-total',        total);
+  setText('ref-growth',       `↑ ${total} referred`);
+  setText('ref-rate',         '5%');
+  setHtml('ref-commission',   polAmt(commission));
+  setHtml('ref-pending',      polAmt(pendingAmt));
+  setText('ref-count-label',  `${total} artist${total !== 1 ? 's' : ''} referred`);
+
+  const linkEl = $('ref-link');
+  if (linkEl) linkEl.value = refLink;
+
+  const tbl = $('ref-tbl');
+  if (!tbl) return;
+  tbl.innerHTML = `
+    <thead><tr>
+      <th>Artist</th><th>Joined</th><th>Items</th><th>Commission</th><th>Status</th>
+    </tr></thead>
+    <tbody>${MOCK_REFERRALS.map(r => `<tr>
+      <td style="color:var(--text-1);font-weight:600;">${r.name}</td>
+      <td>${r.joined}</td>
+      <td>${r.items}</td>
+      <td style="font-family:var(--mono);color:var(--success);">${polAmt(r.commission)}</td>
+      <td><span class="badge ${r.status === 'Active' ? 'badge-live' : 'badge-sold'}">${r.status}</span></td>
+    </tr>`).join('')}</tbody>`;
+}
+
+function copyCode() {
+  const code = $('ref-code')?.textContent;
+  if (!code) return;
+  navigator.clipboard.writeText(code).then(() => toast('Referral code copied!'));
+}
+
+function copyLink() {
+  const link = $('ref-link')?.value;
+  if (!link) return;
+  navigator.clipboard.writeText(link).then(() => toast('Referral link copied!'));
+}
+
+function shareTwitter() {
+  const link = $('ref-link')?.value || '';
+  const text = encodeURIComponent(`Join me on MetaVault — the premier Web3 NFT marketplace! Use my referral link: ${link}`);
+  window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank');
 }
 
 /* ============================================================
@@ -382,6 +450,165 @@ function initNav() {
 }
 
 /* ============================================================
+   AUCTION page  (auction.html)
+   ============================================================ */
+const MOCK_AUCTIONS = [
+  { id: 1, name: 'Cosmic Drift #7',  artist: '0xNova',    category: 'Art',       image: 'https://picsum.photos/seed/auc1/400/400', currentBid: 12.5, endTime: Date.now() + 86400000 * 2,    bids: 14, featured: true },
+  { id: 2, name: 'Neon Genesis #12', artist: 'CryptoMuse', category: '3D',       image: 'https://picsum.photos/seed/auc2/400/400', currentBid: 5.8,  endTime: Date.now() + 86400000 * 1.5,  bids: 8,  featured: false },
+  { id: 3, name: 'Holy Pixel #3',    artist: 'PixelSaint', category: 'Pixel Art', image: 'https://picsum.photos/seed/auc3/400/400', currentBid: 3.2,  endTime: Date.now() + 86400000 * 0.75, bids: 21, featured: false },
+  { id: 4, name: 'World Zero #9',    artist: 'MetaVera',   category: '3D',        image: 'https://picsum.photos/seed/auc4/400/400', currentBid: 7.1,  endTime: Date.now() + 86400000 * 3,    bids: 5,  featured: false },
+];
+
+const MOCK_BID_HISTORY = [
+  { bidder: '0x71b2…4a3c', amount: 12.5,  time: '2 min ago' },
+  { bidder: '0x44d8…9f2b', amount: 11.0,  time: '18 min ago' },
+  { bidder: '0xab12…cc01', amount: 9.5,   time: '1h 4min ago' },
+  { bidder: '0x71b2…4a3c', amount: 8.0,   time: '2h 30min ago' },
+  { bidder: '0x99aa…11bb', amount: 7.0,   time: '4h 12min ago' },
+];
+
+const FAKE_BIDDERS = [
+  '0x71b2…4a3c', '0x44d8…9f2b', '0xab12…cc01',
+  '0x99aa…11bb', '0xfc33…8d7e', '0x12ef…a2b1', '0x8c90…3311',
+];
+
+function refreshBidUI() {
+  const featured = MOCK_AUCTIONS.find(a => a.featured);
+  if (!featured) return;
+  setHtml('auc-current-bid', polAmt(featured.currentBid));
+  setHtml('auc-min-bid',     polAmt((featured.currentBid + 0.1).toFixed(2)));
+  setText('auc-bids',        featured.bids + ' bids');
+  const histEl = $('bid-history');
+  if (histEl) {
+    histEl.innerHTML = MOCK_BID_HISTORY.map(b => `
+      <div class="item-row">
+        <div class="item-info">
+          <div class="item-name" style="font-family:var(--mono);font-size:.75rem;">${b.bidder}</div>
+          <div class="item-cat" style="color:var(--text-2);">${b.time}</div>
+        </div>
+        <div class="item-right"><div class="item-price">${polAmt(b.amount)}</div></div>
+      </div>`).join('');
+  }
+  // Refresh grid bids
+  document.querySelectorAll('.auc-grid-bid').forEach(el => {
+    const id = parseInt(el.dataset.id);
+    const a  = MOCK_AUCTIONS.find(x => x.id === id);
+    if (a) el.innerHTML = polAmt(a.currentBid);
+  });
+  document.querySelectorAll('.auc-grid-count').forEach(el => {
+    const id = parseInt(el.dataset.id);
+    const a  = MOCK_AUCTIONS.find(x => x.id === id);
+    if (a) el.textContent = a.bids + ' bids';
+  });
+}
+
+function renderAuction() {
+  const featured = MOCK_AUCTIONS.find(a => a.featured);
+  if (!featured) return;
+
+  setText('auc-name',        featured.name);
+  setText('auc-artist',      'by ' + featured.artist);
+  setText('auc-category',    featured.category);
+  setHtml('auc-current-bid', polAmt(featured.currentBid));
+  setHtml('auc-min-bid',     polAmt((featured.currentBid + 0.1).toFixed(2)));
+  setText('auc-bids',        featured.bids + ' bids');
+
+  const img = $('auc-img');
+  if (img) img.src = featured.image;
+
+  const histEl = $('bid-history');
+  if (histEl) {
+    histEl.innerHTML = MOCK_BID_HISTORY.map(b => `
+      <div class="item-row">
+        <div class="item-info">
+          <div class="item-name" style="font-family:var(--mono);font-size:.75rem;">${b.bidder}</div>
+          <div class="item-cat" style="color:var(--text-2);">${b.time}</div>
+        </div>
+        <div class="item-right"><div class="item-price">${polAmt(b.amount)}</div></div>
+      </div>`).join('');
+  }
+
+  const grid = $('auc-grid');
+  if (grid) {
+    grid.innerHTML = MOCK_AUCTIONS.filter(a => !a.featured).map(a => `
+      <div class="stat-card purple" style="cursor:pointer;padding:0;overflow:hidden;">
+        <img src="${a.image}" alt="${a.name}" style="width:100%;height:160px;object-fit:cover;display:block;"/>
+        <div style="padding:14px 16px;">
+          <div style="font-weight:700;font-size:.85rem;color:var(--text-1);margin-bottom:3px;">${a.name}</div>
+          <div style="font-size:.72rem;color:var(--text-2);margin-bottom:10px;">by ${a.artist} · ${a.category}</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <div>
+              <div style="font-size:.62rem;color:var(--text-3);text-transform:uppercase;letter-spacing:.8px;">Current Bid</div>
+              <div class="auc-grid-bid" data-id="${a.id}" style="font-family:var(--mono);font-weight:700;color:var(--accent-2);">${polAmt(a.currentBid)}</div>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-size:.62rem;color:var(--text-3);text-transform:uppercase;letter-spacing:.8px;">Total Bids</div>
+              <div class="auc-grid-count" data-id="${a.id}" style="font-family:var(--mono);font-size:.78rem;color:var(--accent);font-weight:700;">${a.bids} bids</div>
+            </div>
+          </div>
+        </div>
+      </div>`).join('');
+  }
+
+  startLiveBidding();
+}
+
+let _liveBiddingStarted = false;
+function startLiveBidding() {
+  if (_liveBiddingStarted) return;
+  _liveBiddingStarted = true;
+
+  const ageBid = () => {
+    MOCK_BID_HISTORY.forEach(b => {
+      if (b.time === 'just now')    b.time = '1 min ago';
+      else if (b.time === '1 min ago') b.time = '2 min ago';
+    });
+  };
+
+  const scheduleBid = () => {
+    const delay = 9000 + Math.random() * 16000; // 9–25 s
+    setTimeout(() => {
+      const pool   = MOCK_AUCTIONS;
+      const target = pool[Math.floor(Math.random() * pool.length)];
+      const inc    = parseFloat((0.1 + Math.random() * 1.4).toFixed(2));
+      const newAmt = parseFloat((target.currentBid + inc).toFixed(2));
+      const bidder = FAKE_BIDDERS[Math.floor(Math.random() * FAKE_BIDDERS.length)];
+
+      ageBid();
+      target.currentBid = newAmt;
+      target.bids++;
+
+      if (target.featured) {
+        MOCK_BID_HISTORY.unshift({ bidder, amount: newAmt, time: 'just now' });
+        if (MOCK_BID_HISTORY.length > 5) MOCK_BID_HISTORY.pop();
+        toast(`New bid: ${polAmt(newAmt)} by ${bidder}`);
+      }
+
+      refreshBidUI();
+      scheduleBid();
+    }, delay);
+  };
+
+  scheduleBid();
+}
+
+function placeBid() {
+  const featured = MOCK_AUCTIONS.find(a => a.featured);
+  if (!featured) return;
+  const inp    = $('bid-amount');
+  const amt    = parseFloat(inp?.value || 0);
+  const minBid = featured.currentBid + 0.1;
+  if (!amt || amt < minBid) { toast(`Minimum bid is ${polAmt(minBid.toFixed(2))}`, 'err'); return; }
+  featured.currentBid = amt;
+  featured.bids++;
+  MOCK_BID_HISTORY.unshift({ bidder: '0xYou…0000', amount: amt, time: 'just now' });
+  if (MOCK_BID_HISTORY.length > 5) MOCK_BID_HISTORY.pop();
+  refreshBidUI();
+  if (inp) inp.value = '';
+  toast(`Your bid of ${polAmt(amt)} is now the highest!`);
+}
+
+/* ============================================================
    BOOT — each page calls what it needs via data-page attribute
    ============================================================ */
 document.addEventListener('DOMContentLoaded', () => {
@@ -397,4 +624,6 @@ document.addEventListener('DOMContentLoaded', () => {
   if (page === 'mint.html')     initMintPage();
   if (page === 'profile.html')  renderProfile();
   if (page === 'withdraw.html') renderWithdraw();
+  if (page === 'referral.html') renderReferral();
+  if (page === 'auction.html')  renderAuction();
 });

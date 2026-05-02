@@ -363,6 +363,80 @@ function initOTPInputs() {
 }
 
 /* ============================================================
+   DEMO CREDENTIALS (login page)
+   ============================================================ */
+function fillDemo(type) {
+  if (type === 'admin') {
+    document.getElementById('login-email').value = ADMIN_EMAIL;
+    document.getElementById('login-pw').value    = ADMIN_PASSWORD;
+  } else {
+    const users = JSON.parse(localStorage.getItem(USERS_KEY) || '[]');
+    if (!users.find(u => u.email === 'demo@metavault.io')) {
+      users.push({ id: Date.now(), name: '0xNova', email: 'demo@metavault.io', password: 'demo1234', role: 'creator', createdAt: new Date().toISOString() });
+      localStorage.setItem(USERS_KEY, JSON.stringify(users));
+    }
+    document.getElementById('login-email').value = 'demo@metavault.io';
+    document.getElementById('login-pw').value    = 'demo1234';
+  }
+  setFieldState('login-email', 'success', '');
+  setFieldState('login-pw', '', '');
+}
+
+/* ============================================================
+   OTP TIMER (forgot-password page)
+   ============================================================ */
+let timerInterval = null;
+
+function startTimer() {
+  let seconds = 14 * 60 + 59;
+  timerInterval = setInterval(() => {
+    const m  = Math.floor(seconds / 60);
+    const s  = seconds % 60;
+    const el = document.getElementById('otp-timer');
+    if (el) el.textContent = `${m}:${s.toString().padStart(2, '0')}`;
+    if (seconds-- <= 0) {
+      clearInterval(timerInterval);
+      if (el) { el.textContent = 'Expired'; el.style.color = 'var(--danger)'; }
+    }
+  }, 1000);
+}
+
+async function verifyOTP() {
+  const inputs = document.querySelectorAll('.otp-input');
+  const code   = [...inputs].map(i => i.value).join('');
+  if (code.length < 6) { toast('Enter the complete 6-digit code', 'warn'); return; }
+
+  const btn = document.querySelector('#forgot-done .btn-auth');
+  if (btn) btn.classList.add('loading');
+  await new Promise(r => setTimeout(r, 1200));
+  if (btn) btn.classList.remove('loading');
+
+  toast('Code verified!');
+  clearInterval(timerInterval);
+
+  const otpSection = document.querySelector('#forgot-done > div:nth-child(3)');
+  const timerEl    = document.querySelector('#forgot-done > div:last-of-type');
+  if (otpSection) otpSection.style.display = 'none';
+  if (timerEl)    timerEl.style.display    = 'none';
+  document.getElementById('step-newpw').style.display = 'block';
+}
+
+async function resetPassword() {
+  const pw   = document.getElementById('new-pw')?.value;
+  const conf = document.getElementById('new-pw-confirm')?.value;
+  if (!pw || pw.length < 8)  { toast('Password must be at least 8 characters', 'err'); return; }
+  if (pw !== conf)            { setFieldState('new-pw-confirm', 'error', 'Passwords do not match'); return; }
+  if (checkStrength(pw) < 2) { toast('Please choose a stronger password', 'warn'); return; }
+
+  const btn = document.querySelector('#step-newpw .btn-auth');
+  if (btn) btn.classList.add('loading');
+  await new Promise(r => setTimeout(r, 1400));
+
+  toast('Password reset successfully! Redirecting…');
+  setTimeout(() => window.location.href = 'login.html', 1800);
+}
+
+/* ============================================================
    LOGOUT (called from dashboard/admin)
    ============================================================ */
 function logout(redirectTo = '../auth/login.html') {
@@ -382,9 +456,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const regForm = document.getElementById('register-form');
   if (regForm) regForm.addEventListener('submit', handleRegister);
 
-  // Wire forgot form
+  // Wire forgot form — also starts OTP timer on success
   const forgotForm = document.getElementById('forgot-form');
-  if (forgotForm) forgotForm.addEventListener('submit', handleForgot);
+  if (forgotForm) forgotForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    await handleForgot(e);
+    if (document.getElementById('forgot-done')?.style.display !== 'none') startTimer();
+  });
 
   // Password strength watcher
   const regPw = document.getElementById('reg-pw');
@@ -410,7 +488,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Confirm password real-time match
+  // Confirm password real-time match (register page)
   const pwConfirm = document.getElementById('reg-pw-confirm');
   if (pwConfirm) {
     pwConfirm.addEventListener('input', () => {
@@ -420,6 +498,21 @@ document.addEventListener('DOMContentLoaded', () => {
         setFieldState('reg-pw-confirm', 'success', 'Passwords match');
       } else {
         setFieldState('reg-pw-confirm', 'error', 'Passwords do not match');
+      }
+    });
+  }
+
+  // New password strength + confirm match (forgot-password page)
+  const newPw = document.getElementById('new-pw');
+  if (newPw) newPw.addEventListener('input', () => renderStrength('new-pw'));
+  const newPwConf = document.getElementById('new-pw-confirm');
+  if (newPwConf) {
+    newPwConf.addEventListener('input', () => {
+      const pw = newPw?.value;
+      if (newPwConf.value && pw !== newPwConf.value) {
+        setFieldState('new-pw-confirm', 'error', 'Passwords do not match');
+      } else if (newPwConf.value) {
+        setFieldState('new-pw-confirm', 'success', 'Passwords match');
       }
     });
   }

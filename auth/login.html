@@ -197,24 +197,5 @@
 
 <div id="toast-wrap"></div>
 <script src="js/auth.js"></script>
-<script>
-  function fillDemo(type) {
-    if (type === 'admin') {
-      document.getElementById('login-email').value = 'admin@metavault.io';
-      document.getElementById('login-pw').value    = 'admin123';
-    } else {
-      // Auto-register a demo creator if not exists
-      const users = JSON.parse(localStorage.getItem('metaVault_users') || '[]');
-      if (!users.find(u => u.email === 'demo@metavault.io')) {
-        users.push({ id: Date.now(), name: '0xNova', email: 'demo@metavault.io', password: 'demo1234', role: 'creator', createdAt: new Date().toISOString() });
-        localStorage.setItem('metaVault_users', JSON.stringify(users));
-      }
-      document.getElementById('login-email').value = 'demo@metavault.io';
-      document.getElementById('login-pw').value    = 'demo1234';
-    }
-    setFieldState('login-email', 'success', '');
-    setFieldState('login-pw', '', '');
-  }
-</script>
 </body>
 </html>

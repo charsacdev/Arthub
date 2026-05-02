@@ -141,9 +141,35 @@ function initHamburger() {
   }
 }
 
+// ===== AUTH NAV SWAP =====
+function initAuthNav() {
+  try {
+    const s = JSON.parse(localStorage.getItem('metaVault_session') || 'null');
+    if (s && s.loggedIn) {
+      const loginBtn    = document.getElementById('nav-login-btn');
+      const registerBtn = document.getElementById('nav-register-btn');
+      if (loginBtn) {
+        loginBtn.textContent = s.name || 'Dashboard';
+        loginBtn.href = s.role === 'admin' ? 'admin/index.html' : 'dashboard/index.html';
+        loginBtn.className = 'btn btn-ghost btn-sm';
+      }
+      if (registerBtn) {
+        registerBtn.textContent = 'Sign Out';
+        registerBtn.href = '#';
+        registerBtn.onclick = function(e) {
+          e.preventDefault();
+          localStorage.removeItem('metaVault_session');
+          window.location.reload();
+        };
+      }
+    }
+  } catch(e) {}
+}
+
 // ===== INIT =====
 document.addEventListener('DOMContentLoaded', () => {
   initTheme();
+  initAuthNav();
   renderGrid();
   renderTrending();
   renderArtists();

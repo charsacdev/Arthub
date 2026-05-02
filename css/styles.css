@@ -395,7 +395,7 @@ footer {
 }
 
 /* ============================================================
-   POLYGON ICON
+   ETHEREUM ICON
    ============================================================ */
 .pol-icon {
   display: inline-flex; align-items: center; gap: 4px;
@@ -403,7 +403,7 @@ footer {
 }
 .pol-icon::before {
   content: ''; display: inline-block; width: 14px; height: 14px;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 38.4 33.5'%3E%3Cpath fill='%238247e5' d='M29 10.2c-.7-.4-1.6-.4-2.4 0L21 13.5l-3.8 2.1-5.5 3.3c-.7.4-1.6.4-2.4 0L5 16.3c-.7-.4-1.2-1.2-1.2-2.1v-5c0-.8.4-1.6 1.2-2.1l4.3-2.5c.7-.4 1.6-.4 2.4 0L16 7.2c.7.4 1.2 1.2 1.2 2.1v3.3l3.8-2.2V6.9c0-.8-.4-1.6-1.2-2.1l-8-4.7c-.7-.4-1.6-.4-2.4 0L1.2 5C.4 5.4 0 6.2 0 7.1v9.4c0 .8.4 1.6 1.2 2.1l8.1 4.7c.7.4 1.6.4 2.4 0l5.5-3.2 3.8-2.2 5.5-3.2c.7-.4 1.6-.4 2.4 0l4.3 2.5c.7.4 1.2 1.2 1.2 2.1v5c0 .8-.4 1.6-1.2 2.1L29 28.8c-.7.4-1.6.4-2.4 0l-4.3-2.5c-.7-.4-1.2-1.2-1.2-2.1v-3.3l-3.8 2.2v3.3c0 .8.4 1.6 1.2 2.1l8.1 4.7c.7.4 1.6.4 2.4 0l8.1-4.7c.7-.4 1.2-1.2 1.2-2.1V17c0-.8-.4-1.6-1.2-2.1L29 10.2z'/%3E%3C/svg%3E") no-repeat center/contain;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 52'%3E%3Cpolygon fill='%23627eea' points='16 0 0 26 16 20 32 26'/%3E%3Cpolygon fill='%23627eea' points='16 52 32 26 16 20 0 26'/%3E%3Cpolygon fill='%23a5b4fc' points='16 0 32 26 16 20' opacity='.6'/%3E%3Cpolygon fill='%23a5b4fc' points='16 52 0 26 16 20' opacity='.6'/%3E%3C/svg%3E") no-repeat center/contain;
   flex-shrink: 0;
 }
 .eth { display: none; }

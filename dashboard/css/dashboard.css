@@ -1144,7 +1144,7 @@ ul { list-style: none; }
 }
 
 /* ============================================================
-   POLYGON ICON
+   ETHEREUM ICON
    ============================================================ */
 .pol-icon {
   display: inline-flex;
@@ -1157,7 +1157,7 @@ ul { list-style: none; }
   content: '';
   display: inline-block;
   width: 14px; height: 14px;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 38.4 33.5'%3E%3Cpath fill='%238247e5' d='M29 10.2c-.7-.4-1.6-.4-2.4 0L21 13.5l-3.8 2.1-5.5 3.3c-.7.4-1.6.4-2.4 0L5 16.3c-.7-.4-1.2-1.2-1.2-2.1v-5c0-.8.4-1.6 1.2-2.1l4.3-2.5c.7-.4 1.6-.4 2.4 0L16 7.2c.7.4 1.2 1.2 1.2 2.1v3.3l3.8-2.2V6.9c0-.8-.4-1.6-1.2-2.1l-8-4.7c-.7-.4-1.6-.4-2.4 0L1.2 5C.4 5.4 0 6.2 0 7.1v9.4c0 .8.4 1.6 1.2 2.1l8.1 4.7c.7.4 1.6.4 2.4 0l5.5-3.2 3.8-2.2 5.5-3.2c.7-.4 1.6-.4 2.4 0l4.3 2.5c.7.4 1.2 1.2 1.2 2.1v5c0 .8-.4 1.6-1.2 2.1L29 28.8c-.7.4-1.6.4-2.4 0l-4.3-2.5c-.7-.4-1.2-1.2-1.2-2.1v-3.3l-3.8 2.2v3.3c0 .8.4 1.6 1.2 2.1l8.1 4.7c.7.4 1.6.4 2.4 0l8.1-4.7c.7-.4 1.2-1.2 1.2-2.1V17c0-.8-.4-1.6-1.2-2.1L29 10.2z'/%3E%3C/svg%3E") no-repeat center/contain;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 52'%3E%3Cpolygon fill='%23627eea' points='16 0 0 26 16 20 32 26'/%3E%3Cpolygon fill='%23627eea' points='16 52 32 26 16 20 0 26'/%3E%3Cpolygon fill='%23a5b4fc' points='16 0 32 26 16 20' opacity='.6'/%3E%3Cpolygon fill='%23a5b4fc' points='16 52 0 26 16 20' opacity='.6'/%3E%3C/svg%3E") no-repeat center/contain;
   flex-shrink: 0;
 }
 
@@ -1209,3 +1209,71 @@ body.light .btn-ghost { border-color: rgba(0,0,0,.15); color: var(--text-2); }
 body.light .tbl th { background: rgba(0,0,0,.03); }
 body.light .tbl tr:hover td { background: rgba(0,0,0,.02); }
 body.light .theme-toggle { background: rgba(0,0,0,.05); border-color: rgba(0,0,0,.12); }
+
+/* ============================================================
+   WITHDRAW PAGE
+   ============================================================ */
+.wd-notice {
+  display: flex; align-items: flex-start; gap: 14px;
+  background: rgba(245,158,11,.08);
+  border: 1px solid rgba(245,158,11,.25);
+  border-radius: var(--r); padding: 18px 20px; margin-bottom: 26px;
+}
+.wd-notice-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 1px; }
+.wd-notice-title { font-size: .85rem; font-weight: 700; color: #f59e0b; margin-bottom: 5px; }
+.wd-notice-body  { font-size: .8rem; color: var(--text-2); line-height: 1.6; }
+.wd-hero {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  border: 1px solid var(--border); border-radius: var(--r);
+  overflow: hidden; margin-bottom: 26px;
+}
+.wd-block {
+  padding: 24px 22px; background: var(--bg-panel);
+  border-right: 1px solid var(--border); position: relative;
+}
+.wd-block:last-child { border-right: none; }
+.wd-block::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+}
+.wd-block:nth-child(1)::before { background: var(--grad); }
+.wd-block:nth-child(2)::before { background: #f59e0b; }
+.wd-block:nth-child(3)::before { background: var(--success); }
+.wd-lbl  { font-size: .67rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-2); font-weight: 700; margin-bottom: 10px; }
+.wd-val  { font-family: var(--mono); font-size: 1.65rem; font-weight: 800; color: var(--text-1); line-height: 1; margin-bottom: 4px; }
+.wd-sub  { font-size: .72rem; color: var(--text-2); }
+.wd-form-panel { max-width: 560px; }
+.wd-input-row { display: flex; gap: 10px; align-items: flex-end; }
+.wd-input-wrap { flex: 1; }
+.wd-input-wrap .fl { display: block; font-size: .78rem; color: var(--text-2); font-weight: 600; margin-bottom: 7px; letter-spacing: .3px; }
+.wd-input {
+  width: 100%; background: rgba(255,255,255,.04); border: 1px solid var(--border);
+  border-radius: 10px; padding: 11px 14px; color: var(--text-1); font-size: .9rem;
+  font-family: var(--mono); transition: border-color var(--ease);
+}
+.wd-input:focus { outline: none; border-color: var(--accent); }
+.wd-max-hint { font-size: .72rem; color: var(--text-2); margin-top: 7px; }
+.wd-max-hint span { color: var(--success); font-weight: 700; }
+.auction-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(255,45,120,.08); border: 1px solid rgba(255,45,120,.2);
+  border-radius: 99px; padding: 4px 12px;
+  font-size: .72rem; font-weight: 700; color: var(--accent-3);
+  margin-bottom: 20px;
+}
+.auction-dot { width: 6px; height: 6px; background: var(--accent-3); border-radius: 50%; animation: blink 1.5s infinite; }
+
+/* ============================================================
+   REFERRAL PAGE
+   ============================================================ */
+.ref-link-input {
+  flex: 1; background: rgba(255,255,255,.04); border: 1px solid var(--border);
+  border-radius: 10px; padding: 10px 14px; color: var(--text-1);
+  font-size: .78rem; font-family: var(--mono); outline: none; cursor: pointer;
+}
+
+@media (max-width: 640px) {
+  .wd-hero { grid-template-columns: 1fr; }
+  .wd-block { border-right: none; border-bottom: 1px solid var(--border); }
+  .wd-block:last-child { border-bottom: none; }
+  .wd-input-row { flex-direction: column; }
+}
