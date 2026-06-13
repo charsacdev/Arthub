@@ -2,11 +2,11 @@
 function polAmt(n) { return `<span class="pol-icon">${typeof n === 'number' ? n.toFixed(2) : n}</span>`; }
 
 function initTheme() {
-  if (localStorage.getItem('metaVault_theme') === 'light') document.body.classList.add('light');
+  if (localStorage.getItem('tokenPixelBay_theme') === 'light') document.body.classList.add('light');
 }
 function toggleTheme() {
   document.body.classList.toggle('light');
-  localStorage.setItem('metaVault_theme', document.body.classList.contains('light') ? 'light' : 'dark');
+  localStorage.setItem('tokenPixelBay_theme', document.body.classList.contains('light') ? 'light' : 'dark');
 }
 
 function toast(msg, type = 'success') {
@@ -132,35 +132,83 @@ function initFilterBar() {
   });
 }
 
-// ===== HAMBURGER =====
+// ===== HAMBURGER & OFF-CANVAS =====
+function toggleOffcanvas() {
+  const menu = document.getElementById('offcanvasMenu');
+  const overlay = document.getElementById('offcanvasOverlay');
+  if (menu && overlay) {
+    menu.classList.toggle('open');
+    overlay.classList.toggle('open');
+  }
+}
+
 function initHamburger() {
   const btn = document.getElementById('hamburger');
-  const links = document.getElementById('navLinks');
-  if (btn && links) {
-    btn.addEventListener('click', () => links.classList.toggle('open'));
+  if (btn) {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleOffcanvas();
+    });
   }
 }
 
 // ===== AUTH NAV SWAP =====
 function initAuthNav() {
   try {
-    const s = JSON.parse(localStorage.getItem('metaVault_session') || 'null');
-    if (s && s.loggedIn) {
-      const loginBtn    = document.getElementById('nav-login-btn');
-      const registerBtn = document.getElementById('nav-register-btn');
+    const s = JSON.parse(localStorage.getItem('tokenPixelBay_session') || 'null');
+    const loginBtn    = document.getElementById('nav-login-btn');
+    const registerBtn = document.getElementById('nav-register-btn');
+    const mLoginBtn    = document.getElementById('mobile-login-btn');
+    const mRegisterBtn = document.getElementById('mobile-register-btn');
+
+    if (s && s.loggedIn && s.role !== 'admin') {
+      const targetUrl = 'dashboard/index.html';
+      
       if (loginBtn) {
         loginBtn.textContent = s.name || 'Dashboard';
-        loginBtn.href = s.role === 'admin' ? 'admin/index.html' : 'dashboard/index.html';
+        loginBtn.href = targetUrl;
         loginBtn.className = 'btn btn-ghost btn-sm';
       }
+      if (mLoginBtn) {
+        mLoginBtn.textContent = s.name || 'Dashboard';
+        mLoginBtn.href = targetUrl;
+      }
+      
+      const signOutFn = function(e) {
+        e.preventDefault();
+        localStorage.removeItem('tokenPixelBay_session');
+        window.location.reload();
+      };
+      
       if (registerBtn) {
         registerBtn.textContent = 'Sign Out';
         registerBtn.href = '#';
-        registerBtn.onclick = function(e) {
-          e.preventDefault();
-          localStorage.removeItem('metaVault_session');
-          window.location.reload();
-        };
+        registerBtn.onclick = signOutFn;
+      }
+      if (mRegisterBtn) {
+        mRegisterBtn.textContent = 'Sign Out';
+        mRegisterBtn.href = '#';
+        mRegisterBtn.onclick = signOutFn;
+      }
+    } else {
+      if (loginBtn) {
+        loginBtn.textContent = 'Login';
+        loginBtn.href = 'auth/login.html';
+        loginBtn.className = 'btn btn-ghost btn-sm';
+      }
+      if (mLoginBtn) {
+        mLoginBtn.textContent = 'Login';
+        mLoginBtn.href = 'auth/login.html';
+      }
+      if (registerBtn) {
+        registerBtn.textContent = 'Register';
+        registerBtn.href = 'auth/register.html';
+        registerBtn.onclick = null;
+      }
+      if (mRegisterBtn) {
+        mRegisterBtn.textContent = 'Register';
+        mRegisterBtn.href = 'auth/register.html';
+        mRegisterBtn.onclick = null;
       }
     }
   } catch(e) {}

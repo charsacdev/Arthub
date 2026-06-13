@@ -1,9 +1,9 @@
 /* ============================================================
-   MetaVault Admin — Login Page JS
+   TokenPixelBay Admin — Login Page JS
    ============================================================ */
-const ADMIN_EMAIL    = 'admin@metavault.io';
-const ADMIN_PASSWORD = 'admin123';
-const SESSION_KEY    = 'metaVault_session';
+const ADMIN_EMAIL    = 'admin@tokenpixelbay.com';
+const ADMIN_PASSWORD = localStorage.getItem('tokenPixelBay_admin_password') || 'admin123';
+const SESSION_KEY    = 'tokenPixelBay_session';
 
 /* Redirect if already logged in as admin */
 (function () {

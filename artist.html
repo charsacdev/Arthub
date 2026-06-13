@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Artist Profile — MetaVault</title>
+  <title>Artist Profile — TokenPixelBay</title>
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
@@ -12,20 +12,32 @@
 <nav class="navbar">
   <div class="nav-logo">
     <div class="logo-icon">◈</div>
-    <span>MetaVault</span>
+    <span>TokenPixelBay</span>
   </div>
   <ul class="nav-links" id="navLinks">
     <li><a href="index.html">Explore</a></li>
     <li><a href="index.html#trending">Trending</a></li>
     <li><a href="index.html#artists">Artists</a></li>
-    <li><a href="dashboard.html">Dashboard</a></li>
   </ul>
   <div class="nav-actions">
-    <div class="wallet-btn">
-      <div class="wallet-dot"></div>
-      <span>0x1a2b...9a0b</span>
-    </div>
-    <a href="dashboard.html" class="btn btn-primary btn-sm">Create</a>
+    <a href="auth/login.html" class="btn btn-ghost btn-sm" id="nav-login-btn">Login</a>
+    <a href="auth/register.html" class="btn btn-primary btn-sm" id="nav-register-btn">Register</a>
+    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle theme">
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+      </svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="5" />
+        <line x1="12" y1="1" x2="12" y2="3" />
+        <line x1="12" y1="21" x2="12" y2="23" />
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+        <line x1="1" y1="12" x2="3" y2="12" />
+        <line x1="21" y1="12" x2="23" y2="12" />
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+      </svg>
+    </button>
     <button class="hamburger" id="hamburger" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
@@ -33,81 +45,63 @@
 </nav>
 
 <!-- PROFILE HERO -->
-<div class="profile-hero" id="profileHero">
-  <div class="profile-content">
-    <a href="index.html" style="display:inline-flex;align-items:center;gap:6px;color:var(--text-secondary);font-size:0.82rem;margin-bottom:24px;transition:color var(--transition);" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-secondary)'">
+<section class="profile-hero-section">
+  <div class="profile-container">
+    <a href="index.html" class="back-link">
       ← Back to Explore
     </a>
-    <div class="profile-top">
-      <div class="profile-avatar-wrap">
-        <div class="profile-avatar">
-          <img id="profileAvatar" src="" alt="Artist Avatar" />
-        </div>
-        <div class="verified-badge">✓</div>
-      </div>
-      <div class="profile-meta">
-        <div class="profile-name" id="profileName">Loading...</div>
-        <div class="profile-wallet">
-          <span id="profileWallet"></span>
-          <button class="copy-btn" onclick="copyWallet()">Copy</button>
-        </div>
-        <div class="profile-bio" id="profileBio"></div>
-        <div class="profile-stats-row">
-          <div class="profile-stat">
-            <div class="profile-stat-value earnings-value" id="profileEarnings">0 ETH</div>
-            <div class="profile-stat-label">Total Earnings</div>
+    
+    <div class="profile-grid-layout">
+      <!-- Left Column: Identity -->
+      <div class="profile-identity-card">
+        <div class="profile-avatar-wrap">
+          <div class="profile-avatar">
+            <img id="profileAvatar" src="" alt="Artist Avatar" />
           </div>
-          <div class="profile-stat">
-            <div class="profile-stat-value" id="profileItems">0</div>
-            <div class="profile-stat-label">Items</div>
-          </div>
-          <div class="profile-stat">
-            <div class="profile-stat-value" id="profileFollowers">0</div>
-            <div class="profile-stat-label">Followers</div>
+          <div class="verified-badge">✓</div>
+        </div>
+        <div class="profile-details">
+          <div class="profile-name" id="profileName">Loading...</div>
+          <div class="profile-bio" id="profileBio"></div>
+          <div class="profile-actions-row">
+            <button class="btn btn-outline" onclick="followArtist()">+ Follow</button>
           </div>
         </div>
       </div>
-      <div style="margin-left:auto;">
-        <button class="btn btn-outline" onclick="followArtist()">+ Follow</button>
+      
+      <!-- Right Column: Stats Grid -->
+      <div class="profile-stats-grid">
+        <div class="p-stat-card">
+          <div class="p-stat-label">Total Volume</div>
+          <div class="p-stat-value" id="earningTotal">0 ETH</div>
+          <div class="p-stat-sub" id="earningUSD">≈ $0 USD</div>
+        </div>
+        <div class="p-stat-card">
+          <div class="p-stat-label">Items Owned</div>
+          <div class="p-stat-value" id="profileItems">0</div>
+          <div class="p-stat-sub">Total Minted</div>
+        </div>
+        <div class="p-stat-card">
+          <div class="p-stat-label">Active Listings</div>
+          <div class="p-stat-value" id="earningsActive">0</div>
+          <div class="p-stat-sub">Available Now</div>
+        </div>
+        <div class="p-stat-card">
+          <div class="p-stat-label">Floor Price</div>
+          <div class="p-stat-value" id="earningsFloor">0 ETH</div>
+          <div class="p-stat-sub">Lowest Listed</div>
+        </div>
       </div>
     </div>
   </div>
-</div>
+</section>
 
 <!-- PROFILE BODY -->
 <div class="profile-body">
-
-  <!-- Earnings Breakdown -->
-  <div class="profile-earnings-card" id="earningsCard">
-    <div class="earnings-block">
-      <div class="earnings-label">Total Earnings</div>
-      <div class="earnings-amount" id="earningTotal">0</div>
-      <div class="earnings-usd" id="earningUSD">≈ $0 USD</div>
-    </div>
-    <div class="earnings-divider"></div>
-    <div class="earnings-block">
-      <div class="earnings-label">Items Sold</div>
-      <div class="earnings-amount" id="earningsSold" style="font-size:1.4rem;">0</div>
-      <div class="earnings-usd">Completed Sales</div>
-    </div>
-    <div class="earnings-divider"></div>
-    <div class="earnings-block">
-      <div class="earnings-label">Active Listings</div>
-      <div class="earnings-amount" id="earningsActive" style="font-size:1.4rem;">0</div>
-      <div class="earnings-usd">Available Now</div>
-    </div>
-    <div class="earnings-divider"></div>
-    <div class="earnings-block">
-      <div class="earnings-label">Floor Price</div>
-      <div class="earnings-amount" id="earningsFloor" style="font-size:1.4rem;">0</div>
-      <div class="earnings-usd">Lowest Listed</div>
-    </div>
-  </div>
-
-  <!-- Filter -->
-  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px;">
-    <h3 style="font-size:1rem;font-weight:700;">All Items</h3>
-    <div class="filter-bar" id="profileFilter" style="margin:0;"></div>
+  <!-- Filter & Title Row -->
+  <div class="profile-filter-row">
+    <h3>All Creations</h3>
+    <div class="filter-bar" id="profileFilter"></div>
   </div>
 
   <!-- NFT Grid -->
@@ -117,7 +111,7 @@
 <!-- FOOTER -->
 <footer>
   <div class="footer-bottom">
-    <p>© 2026 MetaVault. All rights reserved.</p>
+    <p>© 2026 TokenPixelBay. All rights reserved.</p>
     <div class="social-links">
       <a class="social-link" href="#">𝕏</a>
       <a class="social-link" href="#">in</a>
@@ -125,7 +119,29 @@
   </div>
 </footer>
 
+<!-- TOAST -->
 <div id="toast-container"></div>
+
+<!-- OFF-CANVAS MOBILE MENU -->
+<div class="offcanvas-overlay" id="offcanvasOverlay" onclick="toggleOffcanvas()"></div>
+<div class="offcanvas-menu" id="offcanvasMenu">
+  <div class="offcanvas-header">
+    <div class="nav-logo">
+      <div class="logo-icon">◈</div>
+      <span>TokenPixelBay</span>
+    </div>
+    <button class="offcanvas-close" id="offcanvasClose" onclick="toggleOffcanvas()" aria-label="Close menu">✕</button>
+  </div>
+  <ul class="offcanvas-links">
+    <li><a href="index.html" onclick="toggleOffcanvas()">Explore</a></li>
+    <li><a href="index.html#trending" onclick="toggleOffcanvas()">Trending</a></li>
+    <li><a href="index.html#artists" onclick="toggleOffcanvas()">Artists</a></li>
+  </ul>
+  <div class="offcanvas-actions">
+    <a href="auth/login.html" class="btn btn-ghost" style="width: 100%; justify-content: center; margin-bottom: 10px;" id="mobile-login-btn">Login</a>
+    <a href="auth/register.html" class="btn btn-primary" style="width: 100%; justify-content: center;" id="mobile-register-btn">Register</a>
+  </div>
+</div>
 
 <script src="js/data.js"></script>
 <script src="js/artist.js"></script>

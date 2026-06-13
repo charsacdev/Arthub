@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>Admin Login — MetaVault</title>
+  <title>Admin Login — TokenPixelBay</title>
   <link rel="stylesheet" href="css/admin.css"/>
 </head>
 <body class="admin-login-page">
@@ -12,7 +12,7 @@
   <!-- Logo -->
   <div class="login-logo">
     <div class="login-logo-icon">◈</div>
-    <span class="login-logo-text">MetaVault</span>
+    <span class="login-logo-text">TokenPixelBay</span>
     <span class="login-logo-badge">Admin</span>
   </div>
 
@@ -35,14 +35,17 @@
           <span class="fi-icon">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
           </span>
-          <input class="fi" id="email" type="email" placeholder="admin@metavault.io" autocomplete="email"/>
+          <input class="fi" id="email" type="email" placeholder="admin@tokenpixelbay.com" autocomplete="email"/>
         </div>
         <div class="fi-msg" id="email-msg"></div>
       </div>
 
       <!-- Password -->
       <div class="fg">
-        <label class="fl" for="password">Password</label>
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <label class="fl" for="password">Password</label>
+          <a href="forgot-password.html" style="font-size:0.75rem;color:var(--accent);text-decoration:none;">Forgot password?</a>
+        </div>
         <div class="fi-wrap">
           <span class="fi-icon">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
@@ -66,7 +69,7 @@
       <div class="demo-hint-label">Demo Credentials</div>
       <div class="demo-row">
         <span class="demo-key">Email</span>
-        <span class="demo-val">admin@metavault.io</span>
+        <span class="demo-val">admin@tokenpixelbay.com</span>
       </div>
       <div class="demo-row">
         <span class="demo-key">Password</span>

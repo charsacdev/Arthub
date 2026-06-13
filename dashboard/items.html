@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>My Items — MetaVault Dashboard</title>
+  <title>My Items — TokenPixelBay Dashboard</title>
   <link rel="stylesheet" href="css/dashboard.css"/>
 </head>
 <body>
@@ -11,7 +11,7 @@
 <nav class="navbar">
   <a class="nav-logo" href="../index.html">
     <div class="nav-logo-icon">◈</div>
-    <span class="nav-logo-text">MetaVault</span>
+    <span class="nav-logo-text">TokenPixelBay</span>
   </a>
   <ul class="nav-links" id="navLinks">
     <li><a href="../index.html">Explore</a></li>
@@ -61,7 +61,7 @@
         <span class="sb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
         Edit Profile
       </a>
-      <a class="sb-link" href="../index.html">
+      <a class="sb-link" href="../index.html" target="_blank">
         <span class="sb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>
         Marketplace
       </a>
@@ -99,8 +99,20 @@
           <button class="pill" data-filter="sold">Sold</button>
         </div>
       </div>
+      <div class="dt-controls">
+        <div class="dt-left">
+          <div class="dt-search-wrap">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="stroke: var(--text-4);"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input class="dt-search" id="item-search" type="text" placeholder="Search items, category…"/>
+          </div>
+        </div>
+      </div>
       <div class="tbl-wrap">
         <table class="tbl" id="items-tbl"></table>
+      </div>
+      <div class="dt-foot">
+        <span id="items-info">Showing 0 to 0 of 0 entries</span>
+        <div class="dt-pages" id="items-pages"></div>
       </div>
     </div>
   </main>

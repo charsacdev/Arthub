@@ -1,12 +1,12 @@
 /* ============================================================
-   MetaVault — Auth JS
+   TokenPixelBay — Auth JS
    ============================================================ */
 
 /* ---- Constants ---- */
-const ADMIN_EMAIL    = 'admin@metavault.io';
+const ADMIN_EMAIL    = 'admin@tokenpixelbay.com';
 const ADMIN_PASSWORD = 'admin123';
-const SESSION_KEY    = 'metaVault_session';
-const USERS_KEY      = 'metaVault_users';
+const SESSION_KEY    = 'tokenPixelBay_session';
+const USERS_KEY      = 'tokenPixelBay_users';
 
 /* ---- Toast ---- */
 function toast(msg, type = 'ok') {
@@ -371,11 +371,11 @@ function fillDemo(type) {
     document.getElementById('login-pw').value    = ADMIN_PASSWORD;
   } else {
     const users = JSON.parse(localStorage.getItem(USERS_KEY) || '[]');
-    if (!users.find(u => u.email === 'demo@metavault.io')) {
-      users.push({ id: Date.now(), name: '0xNova', email: 'demo@metavault.io', password: 'demo1234', role: 'creator', createdAt: new Date().toISOString() });
+    if (!users.find(u => u.email === 'demo@tokenpixelbay.com')) {
+      users.push({ id: Date.now(), name: '0xNova', email: 'demo@tokenpixelbay.com', password: 'demo1234', role: 'creator', createdAt: new Date().toISOString() });
       localStorage.setItem(USERS_KEY, JSON.stringify(users));
     }
-    document.getElementById('login-email').value = 'demo@metavault.io';
+    document.getElementById('login-email').value = 'demo@tokenpixelbay.com';
     document.getElementById('login-pw').value    = 'demo1234';
   }
   setFieldState('login-email', 'success', '');

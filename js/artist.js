@@ -111,29 +111,118 @@ function renderProfileGrid(items, filter = 'all') {
     : '<p style="color:var(--text-muted);grid-column:1/-1;text-align:center;padding:40px;">No items in this category.</p>';
 }
 
-// ===== EARNINGS CARD =====
+// ===== STATS CARD =====
 function renderEarningsCard(artist) {
-  const sold = artist.items.filter(i => i.sold);
   const active = artist.items.filter(i => !i.sold);
-  const soldEarnings = sold.reduce((s, i) => s + i.price, 0);
   const floor = active.length ? Math.min(...active.map(i => i.price)) : 0;
 
-  document.getElementById('earningTotal').innerHTML = polAmt(artist.totalEarnings);
-  document.getElementById('earningUSD').textContent = `≈ ${ethToUSD(artist.totalEarnings)}`;
-  document.getElementById('earningsSold').textContent = sold.length;
-  document.getElementById('earningsActive').textContent = active.length;
-  document.getElementById('earningsFloor').innerHTML = floor > 0 ? polAmt(floor) : 'N/A';
+  const earningTotal = document.getElementById('earningTotal');
+  const earningUSD = document.getElementById('earningUSD');
+  const earningsActive = document.getElementById('earningsActive');
+  const earningsFloor = document.getElementById('earningsFloor');
+
+  if (earningTotal) earningTotal.innerHTML = polAmt(artist.totalEarnings);
+  if (earningUSD) earningUSD.textContent = `≈ ${ethToUSD(artist.totalEarnings)}`;
+  if (earningsActive) earningsActive.textContent = active.length;
+  if (earningsFloor) earningsFloor.innerHTML = floor > 0 ? polAmt(floor) : 'N/A';
 }
 
-// ===== HAMBURGER =====
+// ===== HAMBURGER & OFF-CANVAS =====
+function toggleOffcanvas() {
+  const menu = document.getElementById('offcanvasMenu');
+  const overlay = document.getElementById('offcanvasOverlay');
+  if (menu && overlay) {
+    menu.classList.toggle('open');
+    overlay.classList.toggle('open');
+  }
+}
+
 function initHamburger() {
   const btn = document.getElementById('hamburger');
-  const links = document.getElementById('navLinks');
-  if (btn && links) btn.addEventListener('click', () => links.classList.toggle('open'));
+  if (btn) {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleOffcanvas();
+    });
+  }
+}
+
+// ===== THEME TOGGLE =====
+function initTheme() {
+  if (localStorage.getItem('tokenPixelBay_theme') === 'light') document.body.classList.add('light');
+}
+function toggleTheme() {
+  document.body.classList.toggle('light');
+  localStorage.setItem('tokenPixelBay_theme', document.body.classList.contains('light') ? 'light' : 'dark');
+}
+
+// ===== AUTH NAV SWAP =====
+function initAuthNav() {
+  try {
+    const s = JSON.parse(localStorage.getItem('tokenPixelBay_session') || 'null');
+    const loginBtn    = document.getElementById('nav-login-btn');
+    const registerBtn = document.getElementById('nav-register-btn');
+    const mLoginBtn    = document.getElementById('mobile-login-btn');
+    const mRegisterBtn = document.getElementById('mobile-register-btn');
+
+    if (s && s.loggedIn && s.role !== 'admin') {
+      const targetUrl = 'dashboard/index.html';
+      
+      if (loginBtn) {
+        loginBtn.textContent = s.name || 'Dashboard';
+        loginBtn.href = targetUrl;
+        loginBtn.className = 'btn btn-ghost btn-sm';
+      }
+      if (mLoginBtn) {
+        mLoginBtn.textContent = s.name || 'Dashboard';
+        mLoginBtn.href = targetUrl;
+      }
+      
+      const signOutFn = function(e) {
+        e.preventDefault();
+        localStorage.removeItem('tokenPixelBay_session');
+        window.location.reload();
+      };
+      
+      if (registerBtn) {
+        registerBtn.textContent = 'Sign Out';
+        registerBtn.href = '#';
+        registerBtn.onclick = signOutFn;
+      }
+      if (mRegisterBtn) {
+        mRegisterBtn.textContent = 'Sign Out';
+        mRegisterBtn.href = '#';
+        mRegisterBtn.onclick = signOutFn;
+      }
+    } else {
+      if (loginBtn) {
+        loginBtn.textContent = 'Login';
+        loginBtn.href = 'auth/login.html';
+        loginBtn.className = 'btn btn-ghost btn-sm';
+      }
+      if (mLoginBtn) {
+        mLoginBtn.textContent = 'Login';
+        mLoginBtn.href = 'auth/login.html';
+      }
+      if (registerBtn) {
+        registerBtn.textContent = 'Register';
+        registerBtn.href = 'auth/register.html';
+        registerBtn.onclick = null;
+      }
+      if (mRegisterBtn) {
+        mRegisterBtn.textContent = 'Register';
+        mRegisterBtn.href = 'auth/register.html';
+        mRegisterBtn.onclick = null;
+      }
+    }
+  } catch(e) {}
 }
 
 // ===== INIT =====
 document.addEventListener('DOMContentLoaded', () => {
+  initTheme();
+  initAuthNav();
+  
   const id = getArtistIdFromURL();
   const artist = COLLECTIONS.find(a => a.id === id);
 
@@ -142,18 +231,23 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
-  document.title = `${artist.artist} — MetaVault`;
+  document.title = `${artist.artist} — TokenPixelBay`;
 
   // Populate profile hero
   document.getElementById('profileAvatar').src = artist.avatar;
   document.getElementById('profileName').textContent = artist.artist;
-  document.getElementById('profileWallet').textContent = artist.wallet;
+  const walletEl = document.getElementById('profileWallet');
+  if (walletEl) walletEl.textContent = artist.wallet;
   document.getElementById('profileBio').textContent = artist.bio;
-  document.getElementById('profileEarnings').innerHTML = polAmt(artist.totalEarnings);
+  
+  const profileEarnings = document.getElementById('profileEarnings');
+  if (profileEarnings) profileEarnings.innerHTML = polAmt(artist.totalEarnings);
+  
   document.getElementById('profileItems').textContent = artist.items.length;
-  document.getElementById('profileFollowers').textContent = artist.followers.toLocaleString();
+  const profileFollowers = document.getElementById('profileFollowers');
+  if (profileFollowers) profileFollowers.textContent = artist.followers.toLocaleString();
 
-  // Earnings card
+  // Stats card
   renderEarningsCard(artist);
 
   // NFT grid

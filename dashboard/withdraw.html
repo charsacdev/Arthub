@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>Withdraw — MetaVault Dashboard</title>
+  <title>Withdraw — TokenPixelBay Dashboard</title>
   <link rel="stylesheet" href="css/dashboard.css"/>
 </head>
 <body>
@@ -11,7 +11,7 @@
 <nav class="navbar">
   <a class="nav-logo" href="../index.html">
     <div class="nav-logo-icon">◈</div>
-    <span class="nav-logo-text">MetaVault</span>
+    <span class="nav-logo-text">TokenPixelBay</span>
   </a>
   <ul class="nav-links" id="navLinks">
     <li><a href="../index.html">Explore</a></li>
@@ -44,7 +44,7 @@
       <a class="sb-link" data-page="auction.html" href="auction.html"><span class="sb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14.5 17.5L3 6M10.5 13.5l-2-2L14 6l2 2-5.5 5.5z"/><path d="M20 21L14.5 14.5"/><path d="M6 18l-3 3"/></svg></span>Auction<span class="sb-badge" style="background:rgba(255,45,120,.15);color:var(--accent-3);">Live</span></a>
       <div class="sb-group-label" style="margin-top:4px;">Account</div>
       <a class="sb-link" data-page="profile.html" href="profile.html"><span class="sb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>Edit Profile</a>
-      <a class="sb-link" href="../index.html"><span class="sb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>Marketplace</a>
+      <a class="sb-link" href="../index.html" target="_blank"><span class="sb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>Marketplace</a>
           </nav>
     <div class="sb-footer">
       <div class="sb-storage-head"><span>Storage Used</span><span>68%</span></div>
@@ -78,7 +78,7 @@
       <div>
         <div class="wd-notice-title">1% Withdrawal Limit Active</div>
         <div class="wd-notice-body">
-          While the MetaVault auction is live, creators may only withdraw up to
+          While the TokenPixelBay auction is live, creators may only withdraw up to
           <strong>1% of their total earnings after aution is over</strong> per request. You can earn referal comission from refering new artists, and withdraw those earnings without limit.
         </div>
       </div>
@@ -124,6 +124,41 @@
             Withdraw
           </button>
         </div>
+      </div>
+    </div>
+
+    <!-- Withdrawal History -->
+    <div class="panel" style="margin-top: 24px;">
+      <div class="panel-head">
+        <div class="panel-title"><span class="dot purple"></span>Withdrawal History</div>
+      </div>
+      <div class="dt-controls">
+        <div class="dt-left">
+          <div class="dt-search-wrap">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="stroke: var(--text-4);"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input class="dt-search" id="withdraw-search" type="text" placeholder="Search ID, wallet, status…"/>
+          </div>
+        </div>
+      </div>
+      <div class="tbl-wrap">
+        <table class="tbl" id="withdraw-tbl">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Date/Time</th>
+              <th>Wallet Address</th>
+              <th>Amount</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="withdraw-history-body">
+            <!-- Populated by JS -->
+          </tbody>
+        </table>
+      </div>
+      <div class="dt-foot">
+        <span id="withdraw-info">Showing 0 to 0 of 0 entries</span>
+        <div class="dt-pages" id="withdraw-pages"></div>
       </div>
     </div>
 

@@ -1,5 +1,5 @@
 /* ============================================================
-   MetaVault Admin Panel — Complete JS (single file)
+   TokenPixelBay Admin Panel — Complete JS (single file)
    ============================================================ */
 
 /* ── Helpers ── */
@@ -9,11 +9,11 @@ function polAmt(n) { return `<span class="pol-icon">${typeof n === 'number' ? n.
 
 /* ── Theme ── */
 function initTheme() {
-  if (localStorage.getItem('metaVault_theme') === 'light') document.body.classList.add('light');
+  if (localStorage.getItem('tokenPixelBay_theme') === 'light') document.body.classList.add('light');
 }
 function toggleTheme() {
   document.body.classList.toggle('light');
-  localStorage.setItem('metaVault_theme', document.body.classList.contains('light') ? 'light' : 'dark');
+  localStorage.setItem('tokenPixelBay_theme', document.body.classList.contains('light') ? 'light' : 'dark');
 }
 
 /* ============================================================
@@ -39,7 +39,7 @@ const adminState = {
    DATA BOOTSTRAP — merges COLLECTIONS with localStorage edits
    ============================================================ */
 function loadAdminState() {
-  const raw = localStorage.getItem('metaVault_admin');
+  const raw = localStorage.getItem('tokenPixelBay_admin');
   const overrides = raw ? JSON.parse(raw) : {};
   const ovCreators = overrides.creators || [];
   const newCreators = overrides.newCreators || [];
@@ -51,7 +51,7 @@ function loadAdminState() {
       ...ov,
       verified: ov.verified !== undefined ? ov.verified : true,
       status: ov.status || 'active',
-      items: c.items.map(it => ({ ...it })),
+      items: ov.items ? ov.items.map(it => ({ ...it })) : c.items.map(it => ({ ...it })),
     };
   });
 
@@ -85,19 +85,20 @@ function persistState() {
       wallet: c.wallet, twitter: c.twitter, website: c.website,
       totalEarnings: c.totalEarnings, followers: c.followers,
       verified: c.verified, status: c.status,
+      items: c.items || []
     })),
     newCreators: adminState.creators
       .filter(c => c.id >= 9000)
       .map(c => ({ ...c })),
   };
-  localStorage.setItem('metaVault_admin', JSON.stringify(payload));
+  localStorage.setItem('tokenPixelBay_admin', JSON.stringify(payload));
 }
 
 /* ============================================================
    AUTH
    ============================================================ */
 function signOut() {
-  localStorage.removeItem('metaVault_session');
+  localStorage.removeItem('tokenPixelBay_session');
   window.location.href = 'login.html';
 }
 
@@ -428,6 +429,9 @@ function buildUsersTable(data) {
           </td>
           <td>
             <div class="row-actions">
+              <button class="btn btn-ghost btn-sm btn-icon" title="Login as Creator" onclick="loginAsCreator(${c.id})">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              </button>
               <button class="btn btn-ghost btn-sm btn-icon" title="Edit Creator" onclick="openEditCreator(${c.id})">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
               </button>
@@ -518,6 +522,23 @@ function saveNewCreator() {
   applyUserFilters();
   initSidebar();
   toast(`Creator "${name}" added successfully`);
+}
+
+function loginAsCreator(id) {
+  const c = adminState.creators.find(x => x.id === id);
+  if (!c) return;
+  const session = {
+    loggedIn: true,
+    role: c.status === 'suspended' ? 'creator' : (c.role || 'creator'),
+    email: c.email || `${c.artist.toLowerCase().replace(/\s+/g, '')}@tokenpixelbay.com`,
+    name: c.artist,
+    remember: true
+  };
+  localStorage.setItem('tokenPixelBay_session', JSON.stringify(session));
+  toast(`Logged in as ${c.artist}! Redirecting...`);
+  setTimeout(() => {
+    window.location.href = '../dashboard/index.html';
+  }, 1000);
 }
 
 function openEditCreator(id) {
@@ -722,6 +743,52 @@ async function removeNFT(nftId, artistId) {
   toast(`"${item.name}" removed`, 'warn');
 }
 
+function openAddNFT() {
+  adminState.editingNft = null;
+  ['an-name','an-price','an-likes','an-image'].forEach(id => setVal(id, ''));
+  const soldEl = $id('an-sold'); if (soldEl) soldEl.checked = false;
+  const prev = $id('an-img-preview'); if (prev) prev.src = '';
+  
+  // Populate artist selector
+  const artistEl = $id('an-artist');
+  if (artistEl) {
+    artistEl.innerHTML = adminState.creators.map(c => `<option value="${c.id}">${c.artist}</option>`).join('');
+  }
+  openModal('addNFTModal');
+}
+
+function saveNewNFT() {
+  const name = getVal('an-name');
+  const artistId = parseInt(($id('an-artist') || {}).value);
+  const price = parseFloat(getVal('an-price')) || 0;
+  if (!name) { toast('NFT Name is required', 'err'); return; }
+  if (!artistId) { toast('Please select an artist', 'err'); return; }
+
+  const creator = adminState.creators.find(c => c.id === artistId);
+  if (!creator) return;
+
+  const image = getVal('an-image') || `images/art_surreal.png`;
+  const newItem = {
+    id: Date.now() % 100000,
+    name,
+    price,
+    image,
+    category: ($id('an-category') || {}).value || 'Art',
+    likes: parseInt(getVal('an-likes')) || 0,
+    sold: getChecked('an-sold'),
+  };
+
+  if (!creator.items) creator.items = [];
+  creator.items.push(newItem);
+  
+  rebuildNFTs();
+  persistState();
+  closeModal('addNFTModal');
+  applyNFTFilters();
+  initSidebar();
+  toast(`NFT "${name}" added to ${creator.artist}'s profile`);
+}
+
 function openEditNFT(nftId, artistId) {
   const creator = adminState.creators.find(c => c.id === artistId);
   if (!creator) return;
@@ -781,18 +848,18 @@ function saveEditNFT() {
    SETTINGS PAGE
    ============================================================ */
 function renderSettings() {
-  const s = JSON.parse(localStorage.getItem('metaVault_settings') || '{}');
+  const s = JSON.parse(localStorage.getItem('tokenPixelBay_settings') || '{}');
   setVal('set-admin-name',  s.adminName    || 'Admin');
-  setVal('set-admin-email', s.adminEmail   || 'admin@metavault.io');
+  setVal('set-admin-email', s.adminEmail   || 'admin@tokenpixelbay.com');
   setVal('set-fee',         s.platformFee  ?? '2.5');
 }
 
 function saveSettings() {
-  const s = JSON.parse(localStorage.getItem('metaVault_settings') || '{}');
+  const s = JSON.parse(localStorage.getItem('tokenPixelBay_settings') || '{}');
   s.adminName   = getVal('set-admin-name');
   s.adminEmail  = getVal('set-admin-email');
   s.platformFee = getVal('set-fee');
-  localStorage.setItem('metaVault_settings', JSON.stringify(s));
+  localStorage.setItem('tokenPixelBay_settings', JSON.stringify(s));
   toast('Settings saved successfully');
 }
 
@@ -812,8 +879,8 @@ function savePassword() {
 async function resetPlatformData() {
   const ok = await showConfirm('Reset All Data', 'This will wipe all admin edits and restore original platform data. Are you sure?', '⚠️');
   if (!ok) return;
-  localStorage.removeItem('metaVault_admin');
-  localStorage.removeItem('metaVault_settings');
+  localStorage.removeItem('tokenPixelBay_admin');
+  localStorage.removeItem('tokenPixelBay_settings');
   loadAdminState();
   renderSettings();
   initSidebar();
@@ -867,7 +934,7 @@ document.addEventListener('DOMContentLoaded', () => {
   /* Guard: must be logged in as admin */
   (function () {
     try {
-      const s = JSON.parse(localStorage.getItem('metaVault_session') || 'null');
+      const s = JSON.parse(localStorage.getItem('tokenPixelBay_session') || 'null');
       if (!s || s.role !== 'admin') {
         const current = location.pathname.split('/').slice(-2).join('/');
         window.location.replace('login.html?next=' + encodeURIComponent(current));
@@ -889,4 +956,5 @@ document.addEventListener('DOMContentLoaded', () => {
   bindPreview('ac-avatar', 'ac-avatar-preview');
   bindPreview('ec-avatar', 'ec-avatar-preview');
   bindPreview('en-image',  'en-img-preview');
+  bindPreview('an-image',  'an-img-preview');
 });

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>Referrals — MetaVault Dashboard</title>
+  <title>Referrals — TokenPixelBay Dashboard</title>
   <link rel="stylesheet" href="css/dashboard.css"/>
 </head>
 <body>
@@ -11,7 +11,7 @@
 <nav class="navbar">
   <a class="nav-logo" href="../index.html">
     <div class="nav-logo-icon">◈</div>
-    <span class="nav-logo-text">MetaVault</span>
+    <span class="nav-logo-text">TokenPixelBay</span>
   </a>
   <ul class="nav-links" id="navLinks">
     <li><a href="../index.html">Explore</a></li>
@@ -44,7 +44,7 @@
       <a class="sb-link" data-page="auction.html" href="auction.html"><span class="sb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14.5 17.5L3 6M10.5 13.5l-2-2L14 6l2 2-5.5 5.5z"/><path d="M20 21L14.5 14.5"/><path d="M6 18l-3 3"/></svg></span>Auction<span class="sb-badge" style="background:rgba(255,45,120,.15);color:var(--accent-3);">Live</span></a>
       <div class="sb-group-label" style="margin-top:4px;">Account</div>
       <a class="sb-link" data-page="profile.html" href="profile.html"><span class="sb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>Edit Profile</a>
-      <a class="sb-link" href="../index.html"><span class="sb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>Marketplace</a>
+      <a class="sb-link" href="../index.html" target="_blank"><span class="sb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>Marketplace</a>
     </nav>
     <div class="sb-footer">
       <div class="sb-storage-head"><span>Storage Used</span><span>68%</span></div>
@@ -150,7 +150,7 @@
             </div>
           </div>
 
-          <div style="display:flex;gap:9px;flex-wrap:wrap;">
+          <div style="display:flex;gap:9px;flex-wrap:wrap;margin-bottom:18px;">
             <button class="btn btn-ghost btn-sm" onclick="shareTwitter()">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.261 5.635 5.903-5.635zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
               Share on X
@@ -159,6 +159,12 @@
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
               Copy Link
             </button>
+          </div>
+          
+          <div style="margin-top:20px; padding: 15px; border: 1px dashed rgba(108,63,255,0.3); border-radius: 12px; background: rgba(108,63,255,0.03);">
+            <div style="font-size: .8rem; font-weight: 700; color: var(--text-1); margin-bottom: 4px;">Transfer Referral Earnings</div>
+            <div style="font-size: .72rem; color: var(--text-2); margin-bottom: 12px;">Move your earned commission directly to your withdrawable main balance.</div>
+            <button class="btn btn-ghost btn-sm" style="border-color: rgba(108,63,255,0.3);" onclick="openTransferModal()">Transfer to Balance</button>
           </div>
         </div>
       </div>
@@ -209,12 +215,46 @@
         <div class="panel-title"><span class="dot"></span>Referred Artists</div>
         <span style="font-size:.73rem;color:var(--text-3);" id="ref-count-label">0 artists referred</span>
       </div>
+      <div class="dt-controls">
+        <div class="dt-left">
+          <div class="dt-search-wrap">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="stroke: var(--text-4);"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input class="dt-search" id="ref-search" type="text" placeholder="Search referred artists…"/>
+          </div>
+        </div>
+      </div>
       <div class="tbl-wrap">
         <table class="tbl" id="ref-tbl"></table>
+      </div>
+      <div class="dt-foot">
+        <span id="ref-info">Showing 0 to 0 of 0 entries</span>
+        <div class="dt-pages" id="ref-pages"></div>
       </div>
     </div>
 
   </main>
+</div>
+
+<div class="modal-overlay" id="transferModal">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title">◈ Transfer to Balance</div>
+      <button class="modal-close" onclick="closeModal('transferModal')">✕</button>
+    </div>
+    <div class="panel-body" style="padding: 10px 0 0 0;">
+      <p style="font-size:.8rem;color:var(--text-2);margin-bottom:16px;">
+        Transfer your referral commission to your main balance. Available: <span id="trans-avail" style="font-weight:700;color:var(--success);">0 ETH</span>
+      </p>
+      <div class="fg">
+        <label class="fl">Amount to Transfer (ETH) <span class="req">*</span></label>
+        <input class="fi" id="trans-amount" type="number" step="0.01" min="0.01" placeholder="0.00"/>
+      </div>
+      <div class="modal-footer" style="padding-top:16px;margin-top:20px;border-top:1px solid var(--border);">
+        <button class="btn btn-ghost" onclick="closeModal('transferModal')">Cancel</button>
+        <button class="btn btn-primary" onclick="submitTransfer()">Transfer Now</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div id="toast-wrap"></div>
